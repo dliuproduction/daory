@@ -1,2 +1,1 @@
 *.sol linguist-language=Solidity
-*.or-any-other-extension-you-like linguist-language=Solidity
