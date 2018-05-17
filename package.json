@@ -50,6 +50,7 @@
   },
   "dependencies": {
     "dotenv": "^2.0.0",
+    "openzeppelin-solidity": "1.9.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2"
   },
@@ -97,5 +98,21 @@
   },
   "eslintConfig": {
     "extends": "react-app"
-  }
+  },
+  "description": "a DAPP that implements a distributed organization with members, tasks, and voting.",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dliuproduction/daory.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dliuproduction/daory/issues"
+  },
+  "homepage": "https://github.com/dliuproduction/daory#readme"
 }
