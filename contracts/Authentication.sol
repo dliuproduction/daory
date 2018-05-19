@@ -3,18 +3,21 @@ pragma solidity ^0.4.2;
 import 'openzeppelin-solidity/contracts/lifecycle/Destructible.sol';
 
 contract Authentication is Destructible {
-  struct User {
+
+  // type for a single member
+  struct Member {
     bytes32 name;
   }
 
-  mapping (address => User) private users;
+  // Maps each member's address to the member struct
+  mapping(address => Member) private members;
 
-  uint private id; // Stores user id temporarily
+  uint private userId; // Stores user id temporarily
 
   modifier onlyExistingUser {
     // Check if user exists or terminate
 
-    require(!(users[msg.sender].name == 0x0));
+    require(!(members[msg.sender].name == 0x0));
     _;
   }
 
@@ -25,46 +28,36 @@ contract Authentication is Destructible {
     _;
   }
 
-  function login() constant
-  public
-  onlyExistingUser
-  returns (bytes32) {
-    return (users[msg.sender].name);
+  function login() view public onlyExistingUser returns (bytes32) {
+    return (members[msg.sender].name);
   }
 
-  function signup(bytes32 name)
-  public
-  payable
-  onlyValidName(name)
-  returns (bytes32) {
+  function signup(bytes32 name) public onlyValidName(name) returns (bytes32) {
     // Check if user exists.
     // If yes, return user name.
     // If no, check if name was sent.
     // If yes, create and return user.
 
-    if (users[msg.sender].name == 0x0)
+    if (members[msg.sender].name == 0x0)
     {
-        users[msg.sender].name = name;
+        members[msg.sender].name = name;
 
-        return (users[msg.sender].name);
+        return (members[msg.sender].name);
     }
 
-    return (users[msg.sender].name);
+    return (members[msg.sender].name);
   }
 
-  function update(bytes32 name)
-  public
-  payable
-  onlyValidName(name)
-  onlyExistingUser
-  returns (bytes32) {
-    // Update user name.
+  /// @author Dennis Liu
+  /// @notice only whiteliseted addresses can change their 
+  /// @param  name new name of the member to change to
+  function update(bytes32 name) public onlyValidName(name) onlyExistingUser returns (bytes32) {
 
-    if (users[msg.sender].name != 0x0)
+    if (members[msg.sender].name != 0x0)
     {
-        users[msg.sender].name = name;
+        members[msg.sender].name = name;
 
-        return (users[msg.sender].name);
+        return (members[msg.sender].name);
     }
   }
 }
