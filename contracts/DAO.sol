@@ -1,12 +1,11 @@
 pragma solidity ^0.4.23;
 
-import "openzeppelin-solidity/contracts/ownership/Claimable.sol";
 import "openzeppelin-solidity/contracts/math/SafeMath.sol";
 import "./Authentication.sol";
 
 /// @title A distributed organization with members, tasks, and voting.
 /// @author Dennis Liu
-contract DAO is Claimable, Authentication {
+contract DAO is Authentication {
 using SafeMath for uint;
 
     // type for a single task
