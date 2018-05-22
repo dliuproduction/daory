@@ -38,10 +38,9 @@ export function loginUser() {
 
           // Attempt to login user.
           authenticationInstance.login({from: coinbase})
-          .then(function(result) {
+          .then(function(userName) {
             // If no error, login user.
-            var userName = web3.toUtf8(result)
-
+            // var userName = web3.toUtf8(result)
             dispatch(userLoggedIn({"name": userName}))
 
             // Used a manual redirect here as opposed to a wrapper.

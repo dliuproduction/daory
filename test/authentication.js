@@ -10,7 +10,7 @@ contract('Authentication', function(accounts) {
     }).then(function() {
       return authenticationInstance.login.call();
     }).then(function(userName) {
-      assert.equal(web3.toUtf8(userName), 'testuser', "The user was not signed up.");
+      assert.equal(userName, 'testuser', "The user was not signed up.");
     });
   });
 
