@@ -66,3 +66,16 @@ code {
   height: 16px;
   margin-right: 10px;
 }
+
+.button {
+  margin: unit;
+}
+
+.flex {
+  flex: 1;
+}
+
+.menuButton {
+  marginLeft: -12;
+  marginRight: 20;
+}

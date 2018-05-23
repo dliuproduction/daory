@@ -1,13 +1,11 @@
-import React from 'react'
+import React from 'react';
 import Button from '@material-ui/core/Button';
 
 const LoginButton = ({ onLoginUserClick }) => {
   return(
-    <li className="pure-menu-item">
-      <a href="#" className="pure-menu-link" onClick={(event) => onLoginUserClick(event)}>
-      <Button variant="raised" color="primary">Login</Button>
-      </a>
-    </li>
+    <Button color="inherit" classname="button" href="#" onClick={(event) => onLoginUserClick(event)}>
+      Login
+    </Button>
   )
 }
 

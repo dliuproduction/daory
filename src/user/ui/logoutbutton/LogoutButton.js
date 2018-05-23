@@ -1,10 +1,11 @@
-import React from 'react'
+import React from 'react';
+import Button from '@material-ui/core/Button';
 
 const LogoutButton = ({ onLogoutUserClick }) => {
   return(
-    <li className="pure-menu-item">
-      <a href="#" className="pure-menu-link" onClick={(event) => onLogoutUserClick(event)}>Logout</a>
-    </li>
+    <Button color="inherit" classname="button" href="#" onClick={(event) => onLogoutUserClick(event)}>
+      Logout
+    </Button>
   )
 }
 

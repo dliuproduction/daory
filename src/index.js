@@ -6,6 +6,9 @@ import { syncHistoryWithStore } from 'react-router-redux'
 import { UserIsAuthenticated, UserIsNotAuthenticated } from './util/wrappers.js'
 import getWeb3 from './util/web3/getWeb3'
 
+// Material-UI styling
+import CssBaseline from '@material-ui/core/CssBaseline';
+
 // Layouts
 import App from './App'
 import Home from './layouts/home/Home'
@@ -29,6 +32,8 @@ getWeb3
 })
 
 ReactDOM.render((
+  <div>
+    <CssBaseline />
     <Provider store={store}>
       <Router history={history}>
         <Route path="/" component={App}>
@@ -39,6 +44,7 @@ ReactDOM.render((
         </Route>
       </Router>
     </Provider>
+  </div>
   ),
   document.getElementById('root')
 )

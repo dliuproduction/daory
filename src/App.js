@@ -1,7 +1,14 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
 import { HiddenOnlyAuth, VisibleOnlyAuth } from './util/wrappers.js'
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
 
 // UI Components
 import LoginButtonContainer from './user/ui/loginbutton/LoginButtonContainer'
@@ -12,42 +19,49 @@ import './css/oswald.css'
 import './css/open-sans.css'
 import './css/pure-min.css'
 import './App.css'
+import 'typeface-roboto'
+
 
 class App extends Component {
   render() {
     const OnlyAuthLinks = VisibleOnlyAuth(() =>
-      <span>
-        <li className="pure-menu-item">
-          <Link to="/dashboard" className="pure-menu-link">Dashboard</Link>
-        </li>
-        <li className="pure-menu-item">
-          <Link to="/profile" className="pure-menu-link">Profile</Link>
-        </li>
+      <div>
+        <Button color="inherit" classname="button" href="/dashboard">
+          <Link to="/dashboard">
+            Dashboard
+          </Link>
+        </Button>
+        <Button color="inherit" classname="button">
+          <Link to="/profile">
+            Profile
+          </Link>
+        </Button>
         <LogoutButtonContainer />
-      </span>
+      </div>
     )
 
     const OnlyGuestLinks = HiddenOnlyAuth(() =>
-      <span>
-        <li className="pure-menu-item">
-          <Link to="/signup" className="pure-menu-link">Sign Up</Link>
-        </li>
+      <div>
+        <Button color="inherit" classname="button" href="/signup">
+          Sign Up
+        </Button>
         <LoginButtonContainer />
-      </span>
+      </div>
     )
 
     return (
       <div className="App">
-        <nav className="navbar pure-menu pure-menu-horizontal">
-          <AppBar color="primary">
-            <ul className="pure-menu-list navbar-right">
+          <AppBar position="static">
+            <Toolbar>
+              <Button color="inherit" classname="button" href="/">
+                <Typography variant="title" color="inherit" className="flex">
+                  Daory
+                </Typography>
+              </Button>
               <OnlyGuestLinks />
               <OnlyAuthLinks />
-            </ul>
-            <Link to="/" className="pure-menu-heading pure-menu-link">Daory</Link>
+            </Toolbar>
           </AppBar>
-        </nav>
-
         {this.props.children}
       </div>
     );
