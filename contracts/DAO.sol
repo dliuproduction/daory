@@ -89,6 +89,7 @@ using SafeMath for uint256;
     /// @param  taskId index of the task in tasks array
     function remove(uint taskId) public onlyExistingMember taskExists(taskId) onlyProposer(taskId) {
         delete tasks[taskId];
+        delete votedList[taskId];
         emit taskRemoved(taskId);
     }
     

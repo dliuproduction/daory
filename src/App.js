@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
 import { HiddenOnlyAuth, VisibleOnlyAuth } from './util/wrappers.js'
+import AppBar from '@material-ui/core/AppBar';
 
 // UI Components
 import LoginButtonContainer from './user/ui/loginbutton/LoginButtonContainer'
@@ -38,11 +39,13 @@ class App extends Component {
     return (
       <div className="App">
         <nav className="navbar pure-menu pure-menu-horizontal">
-          <ul className="pure-menu-list navbar-right">
-            <OnlyGuestLinks />
-            <OnlyAuthLinks />
-          </ul>
-          <Link to="/" className="pure-menu-heading pure-menu-link">Truffle Box</Link>
+          <AppBar color="primary">
+            <ul className="pure-menu-list navbar-right">
+              <OnlyGuestLinks />
+              <OnlyAuthLinks />
+            </ul>
+            <Link to="/" className="pure-menu-heading pure-menu-link">Daory</Link>
+          </AppBar>
         </nav>
 
         {this.props.children}
