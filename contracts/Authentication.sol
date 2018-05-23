@@ -13,9 +13,9 @@ using SafeMath for uint256;
   }
 
   // Maps each member's address to the member struct
-  mapping(address => Member) internal members;
+  mapping(address => Member) public members;
 
-  uint256 internal memberCount; // Stores number of members
+  uint256 public memberCount; // Stores number of members
 
   modifier onlyExistingMember {
     // Check if member exists

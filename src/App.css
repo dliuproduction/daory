@@ -2,11 +2,11 @@
 
 body,
 .pure-g [class*=pure-u] {
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
 h1, h2, h3 {
-  font-family: 'Oswald', 'Arial Narrow', sans-serif;
+  font-family: 'Roboto', 'Roboto', sans-serif;
 }
 
 code {
@@ -16,7 +16,7 @@ code {
   background: #eee;
 }
 
-.container {
+/* .container {
   box-sizing: border-box;
   width: 100%;
   padding: 45px 20px;
@@ -32,11 +32,11 @@ code {
 
 .pure-form input[type="text"]:focus {
   border-color: #0c1a2b;
-}
+} */
 
 /* NAVBAR */
 
-.navbar {
+/* .navbar {
   position: fixed;
   padding: 5px;
   background: #0c1a2b;
@@ -45,13 +45,13 @@ code {
 
 .navbar a {
   color: #fff;
-}
+} */
 
-.navbar a:active,
+/* .navbar a:active,
 .navbar a:focus,
 .navbar a:hover {
   background: #233e5e;
-}
+} */
 
 .navbar .pure-menu-heading {
   font-weight: bold;
