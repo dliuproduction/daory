@@ -3,7 +3,7 @@ import Button from '@material-ui/core/Button';
 
 const LogoutButton = ({ onLogoutUserClick }) => {
   return(
-    <Button color="inherit" classname="button" href="#" onClick={(event) => onLogoutUserClick(event)}>
+    <Button color="inherit" className="button" href="#" onClick={(event) => onLogoutUserClick(event)}>
       Logout
     </Button>
   )

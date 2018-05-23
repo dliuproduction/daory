@@ -25,7 +25,7 @@ const history = syncHistoryWithStore(browserHistory, store)
 // Initialize web3 and set in Redux.
 getWeb3
 .then(results => {
-  console.log('Web3 initialized!')
+  console.log('Web3 initialized!' + store.getState().web3.network)
 })
 .catch(() => {
   console.log('Error in web3 initialization.')
