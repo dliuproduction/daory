@@ -22,6 +22,11 @@ import 'typeface-roboto'
 
 
 class App extends Component {
+
+  componentWillMount() {
+    // console.log("hi", this.props.route.web3.network)
+  }
+
   render() {
     const OnlyAuthLinks = VisibleOnlyAuth(() =>
       <div>
@@ -41,25 +46,29 @@ class App extends Component {
 
     const OnlyGuestLinks = HiddenOnlyAuth(() =>
       <div>
-        <Button color="inherit" className="button" href="/signup">
-          Sign Up
+        <Button color="inherit" className="button">
+          <Link to="/signup" style={{ textDecoration: 'none' , color: "inherit"}}>
+              Sign Up
+          </Link>
         </Button>
         <LoginButtonContainer />
       </div>
     )
 
     const DetectWeb3 = () => {
+      
       var web3 = store.getState().web3
-      var returnMessage
-      if (web3.web3Instance !== 'undefined') {
-        returnMessage = 'Web3 Detected: ' + web3.network
+      var web3Status
+      if (typeof web3.web3Instance !== 'undefined') {
+        console.log('button loaded')
+        web3Status = 'Web3 Detected: ' + web3.network
       } else {
-        returnMessage = 'Web3 Not Detected'
+        web3Status = 'Web3 Not Detected'
       }
       return (
         <div>
           <Typography variant="body2" color="inherit">
-            {returnMessage}
+            {web3Status}
           </Typography>
         </div>
       )
@@ -67,7 +76,7 @@ class App extends Component {
 
     return (
       <div className="App">
-          <AppBar position="static" color="primary">
+          <AppBar position="sticky" color="primary">
             <Toolbar>
               <Button color="inherit" className="button">
                 <Link to="/" style={{ textDecoration: 'none' , color: "inherit"}}>
@@ -83,7 +92,8 @@ class App extends Component {
           </AppBar>
         {this.props.children}
       </div>
-    );
+      
+    )
   }
 }
 

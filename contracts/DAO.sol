@@ -101,4 +101,8 @@ using SafeMath for uint256;
         require(tasks[taskId].finished, "Voting on this task has not finished");
         return votedList[taskId];
     }
+    
+    function getTaskCount() public view onlyExistingMember returns (uint) {
+      return tasks.length;
+    } 
 }

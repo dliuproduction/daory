@@ -22,14 +22,16 @@ import store from './store'
 // Initialize react-router-redux.
 const history = syncHistoryWithStore(browserHistory, store)
 
-// Initialize web3 and set in Redux.
+// Initialize web3 and set in Redux, then pass to App to load in first mounting of component.
+// var web3
 getWeb3
 .then(results => {
-  console.log('Web3 initialized!' + store.getState().web3.network)
+  console.log('Web3 initialized!')
 })
 .catch(() => {
   console.log('Error in web3 initialization.')
 })
+
 
 ReactDOM.render((
   <div>

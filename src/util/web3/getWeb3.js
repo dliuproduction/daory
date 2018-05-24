@@ -17,22 +17,39 @@ function web3NotFound(results) {
   }
 }
 
-function getNetwork(web3) {
-    switch (web3.version.network) {
-      case "1":
-        return('Mainnet')
-      case "2":
-        return('Morden Testnet')
-      case "3":
-        return('Ropsten Testnet')
-      case "4":
-        return('Rinkeby Testnet')
-      case "42":
-        return('Kovan Testnet')
-      default:
-        return('Unknown Network ID: ' + web3.version.network)
-    }
-}
+// const getNetwork = (web3) => {
+//   web3.version.getNetwork((err, netId) => {
+//     console.log(err, netId)
+//     switch (netId) {
+//       case "1":
+//         network = 'Mainnet')
+//       case "2":
+//         network = 'Morden Testnet')
+//       case "3":
+//         network = 'Ropsten Testnet')
+//       case "4":
+//         network = 'Rinkeby Testnet')
+//       case "42":
+//         network = 'Kovan Testnet')
+//       default:
+//         network = 'Unknown Network ID: ' + netId)
+//     }
+//     // switch (web3.version.network) {
+//     //   case "1":
+//     //     network = 'Mainnet')
+//     //   case "2":
+//     //     network = 'Morden Testnet')
+//     //   case "3":
+//     //     network = 'Ropsten Testnet')
+//     //   case "4":
+//     //     network = 'Rinkeby Testnet')
+//     //   case "42":
+//     //     network = 'Kovan Testnet')
+//     //   default:
+//     //     network = 'Unknown Network ID: ' + web3.version.network)
+//     // }
+//   })
+// }
 
 let getWeb3 = new Promise(function(resolve, reject) {
   // Wait for loading completion to avoid race conditions with web3 injection timing.
@@ -45,24 +62,39 @@ let getWeb3 = new Promise(function(resolve, reject) {
       // Use Mist/MetaMask's provider.
 
       web3 = new Web3(web3.currentProvider)
-      var network = getNetwork(web3)
 
-      console.log('Injected web3 detected: ' + network)
-
-      results = {
-        web3Instance: web3,
-        network: network
-      }
-
-
-      resolve(store.dispatch(web3Initialized(results)))
+      // Determine the network connected according to network Id
+      web3.version.getNetwork(
+        function(err, netId) { 
+        var network
+        switch (netId) {
+          case "1":
+            network = 'Mainnet' 
+            break
+          case "2":
+            network = 'Morden Testnet'
+            break
+          case "3":
+            network = 'Ropsten Testnet'
+            break
+          case "4":
+            network = 'Rinkeby Testnet'
+            break
+          case "42":
+            network = 'Kovan Testnet'
+            break
+          default:
+            network = 'Unknown Network ID: ' + netId
+            break
+        }
+        results = {
+          web3Instance: web3,
+          network: network 
+        }
+        console.log('web3 detected, network: ' + network)
+        resolve(store.dispatch(web3Initialized(results)))
+      })
     } else {
-
-      // Fallback to localhost if no web3 injection. We've configured this to
-      // use the development console's port by default.
-      // var provider = new Web3.providers.HttpProvider('http://127.0.0.1:9545')
-
-      // web3 = new Web3(provider)
 
       results = {
         web3Instance: 'undefined'      
@@ -70,7 +102,7 @@ let getWeb3 = new Promise(function(resolve, reject) {
 
       console.log('No web3 instance injected, install Metamask to proceed');
 
-      resolve(store.dispatch(web3NotFound(results)))
+      reject(store.dispatch(web3NotFound(results)))
     }
   })
 })

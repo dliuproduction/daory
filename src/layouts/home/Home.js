@@ -1,16 +1,17 @@
 import React, { Component } from 'react'
 import { HiddenOnlyAuth, VisibleOnlyAuth } from '../../util/wrappers.js'
-import HomeList from "./HomeList.js"
+import TaskList from "./task/TaskList.js"
+import { Typography } from '@material-ui/core';
 
 class Home extends Component {
   render() {
 
     const AuthHome = VisibleOnlyAuth(() =>
-      <HomeList />
+      <TaskList />
     )
 
     const GuestHome = HiddenOnlyAuth(() =>
-        <h1>Please signup or login first.</h1>
+      <Typography variant="display2">Please signup or login first.</Typography>
     )
 
     return(

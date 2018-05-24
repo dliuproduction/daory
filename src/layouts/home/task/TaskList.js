@@ -25,7 +25,7 @@ const styles = theme => ({
   },
 });
 
-class HomeList extends React.Component {
+class TaskList extends React.Component {
   state = { open: true };
 
   handleClick = () => {
@@ -76,8 +76,8 @@ class HomeList extends React.Component {
   }
 }
 
-HomeList.propTypes = {
+TaskList.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(HomeList);
+export default withStyles(styles)(TaskList);

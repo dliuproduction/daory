@@ -1,6 +1,6 @@
 const initialState = {
-  web3Instance: 'undefined',
-  network: ''
+  web3Instance: null,
+  network: null
 }
 
 const web3Reducer = (state = initialState, action) => {
