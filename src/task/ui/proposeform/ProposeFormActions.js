@@ -1,4 +1,3 @@
-import AuthenticationContract from '../../../../build/contracts/Authentication.json'
 import DAOContract from '../../../../build/contracts/DAO.json'
 import store from '../../../store'
 
@@ -36,17 +35,18 @@ export function proposeTask(title, content) {
         DAO.deployed().then(function(instance) {
           DAOInstance = instance
 
-          // Attempt to login user.
+          // Attempt to propose task.
           DAOInstance.propose(title, content, {from: coinbase})
           .then(function(result) {
-            // If no error, update user.
+            // If no error, propose task
 
             dispatch(taskProposed({'title': title, 'content': content}))
 
-            return alert('Task Proposed!')
+            return alert('Task Proposed!, transaction ID: ', result)
           })
           .catch(function(result) {
             // If error...
+            return alert('Error! (' + result + ')')
           })
         })
       })
@@ -54,11 +54,4 @@ export function proposeTask(title, content) {
   } else {
     console.error('Web3 is not initialized.');
   }
-
-  cryptoZombies.events.NewZombie()
-  .on("data", function(event) {
-    let zombie = event.returnValues;
-    // We can access this event's 3 return values on the `event.returnValues` object:
-    console.log("A new zombie was born!", zombie.zombieId, zombie.name, zombie.dna);
-  }).on("error", console.error);
 }

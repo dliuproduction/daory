@@ -31,6 +31,11 @@ class App extends Component {
     const OnlyAuthLinks = VisibleOnlyAuth(() =>
       <div>
         <Button color="inherit" className="button">
+          <Link to="/propose" style={{ textDecoration: 'none' , color: "inherit"}}>
+              Propose
+          </Link>
+        </Button>
+        <Button color="inherit" className="button">
           <Link to="/dashboard" style={{ textDecoration: 'none' , color: "inherit"}}>
               Dashboard
           </Link>
@@ -60,7 +65,6 @@ class App extends Component {
       var web3 = store.getState().web3
       var web3Status
       if (typeof web3.web3Instance !== 'undefined') {
-        console.log('button loaded')
         web3Status = 'Web3 Detected: ' + web3.network
       } else {
         web3Status = 'Web3 Not Detected'

@@ -1,4 +1,4 @@
-import AuthenticationContract from '../../../../build/contracts/Authentication.json'
+import DAOContract from '../../../../build/contracts/DAO.json'
 import { browserHistory } from 'react-router'
 import store from '../../../store'
 
@@ -19,12 +19,12 @@ export function loginUser() {
   if (typeof web3 !== 'undefined') {
 
     return function(dispatch) {
-      // Using truffle-contract we create the authentication object.
-      const authentication = contract(AuthenticationContract)
-      authentication.setProvider(web3.currentProvider)
+      // Using truffle-contract we create the DAO object.
+      const DAO = contract(DAOContract)
+      DAO.setProvider(web3.currentProvider)
 
-      // Declaring this for later so we can chain functions on Authentication.
-      var authenticationInstance
+      // Declaring this for later so we can chain functions on DAO.
+      var DAOInstance
 
       // Get current ethereum wallet.
       web3.eth.getCoinbase((error, coinbase) => {
@@ -33,11 +33,11 @@ export function loginUser() {
           console.error(error);
         }
 
-        authentication.deployed().then(function(instance) {
-          authenticationInstance = instance
+        DAO.deployed().then(function(instance) {
+          DAOInstance = instance
 
           // Attempt to login user.
-          authenticationInstance.login({from: coinbase})
+          DAOInstance.login({from: coinbase})
           .then(function(userName) {
             // If no error, login user.
             // var userName = web3.toUtf8(result)

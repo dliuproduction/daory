@@ -1,10 +1,18 @@
+import AuthenticationContract from '../../../../build/contracts/Authentication.json'
 import DAOContract from '../../../../build/contracts/DAO.json'
-import { loginUser } from '../loginbutton/LoginButtonActions'
 import store from '../../../store'
 
 const contract = require('truffle-contract')
 
-export function signUpUser(name) {
+export const TASK_PROPOSED = 'TASK_PROPOSED'
+function taskProposed(task) {
+  return {
+    type: TASK_PROPOSED,
+    payload: task
+  }
+}
+
+export function proposeTask(title, content) {
   let web3 = store.getState().web3.web3Instance
 
   // Double-check web3's status.
@@ -28,14 +36,18 @@ export function signUpUser(name) {
         DAO.deployed().then(function(instance) {
           DAOInstance = instance
 
-          // Attempt to sign up user.
-          DAOInstance.signup(name, {from: coinbase})
+          // Attempt to propose task.
+          DAOInstance.propose(title, content, {from: coinbase})
           .then(function(result) {
-            // If no error, login user.
-            return dispatch(loginUser())
+            // If no error, propose task.
+
+            dispatch(taskProposed({'title': title, 'content': content}))
+
+            return alert('Task Proposed!, transaction ID: ', result)
           })
           .catch(function(result) {
             // If error...
+            return alert('Error! (' + result + ')')
           })
         })
       })

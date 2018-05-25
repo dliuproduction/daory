@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { HiddenOnlyAuth, VisibleOnlyAuth } from '../../util/wrappers.js'
-import TaskList from "./task/TaskList.js"
+import TaskList from "../../task/ui/tasklist/TaskList.js"
 import { Typography } from '@material-ui/core';
 
 class Home extends Component {
