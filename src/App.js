@@ -14,9 +14,6 @@ import LogoutButtonContainer from './user/ui/logoutbutton/LogoutButtonContainer'
 import store from './store.js'
 
 // Styles
-// import './css/oswald.css'
-// import './css/open-sans.css'
-// import './css/pure-min.css'
 import './App.css'
 import 'typeface-roboto'
 
