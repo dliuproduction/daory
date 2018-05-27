@@ -24,7 +24,6 @@ import store from './store'
 const history = syncHistoryWithStore(browserHistory, store)
 
 // Initialize web3 and set in Redux, then pass to App to load in first mounting of component.
-// var web3
 getWeb3
 .then(results => {
   console.log('Web3 initialized!')
@@ -41,7 +40,7 @@ ReactDOM.render((
       <Router history={history}>
         <Route path="/" component={App}>
           <IndexRoute component={Home} />
-          <Route path="dashboard" component={UserIsAuthenticated(Dashboard)} />
+          {/* <Route path="dashboard" component={UserIsAuthenticated(Dashboard)} /> */}
           <Route path="signup" component={UserIsNotAuthenticated(SignUp)} />
           <Route path="profile" component={UserIsAuthenticated(Profile)} />
           <Route path="propose" component={UserIsAuthenticated(Propose)} />

@@ -8,7 +8,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onProposeFormSubmit: (title, content) => {
+    getTaskList: () => {
       event.preventDefault();
 
       dispatch(proposeTask(title, content))

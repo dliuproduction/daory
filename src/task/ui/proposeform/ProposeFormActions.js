@@ -39,14 +39,16 @@ export function proposeTask(title, content) {
           DAOInstance.propose(title, content, {from: coinbase})
           .then(function(result) {
             // If no error, propose task
-
-            dispatch(taskProposed({'title': title, 'content': content}))
-
             return alert('Task Proposed!, transaction ID: ', result)
           })
           .catch(function(result) {
             // If error...
             return alert('Error! (' + result + ')')
+          })
+
+          DAOInstance.newTask().watch((err, res) => {
+            
+            dispatch(taskProposed({'title': title, 'content': content}))
           })
         })
       })

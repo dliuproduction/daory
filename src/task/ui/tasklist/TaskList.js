@@ -15,6 +15,10 @@ const styles = theme => ({
 class TaskList extends Component {
   state = { open: true };
 
+  componentDidMount() {
+    
+  }
+
   handleClick = () => {
     this.setState({ open: !this.state.open });
   };
@@ -35,7 +39,7 @@ class TaskList extends Component {
             <ListItemText inset primary="Proposed" />
             {this.state.open ? <ExpandLess /> : <ExpandMore />}
           </ListItem>
-          
+
           <Collapse in={this.state.open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
               <ListItem>
@@ -87,12 +91,12 @@ class TaskList extends Component {
 
         </List>
       </div>
-    );
+    )
   }
 }
 
 TaskList.propTypes = {
   classes: PropTypes.object.isRequired,
-};
+}
 
-export default withStyles(styles)(TaskList);
+export default withStyles(styles)(TaskList)

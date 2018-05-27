@@ -1,20 +1,41 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
+import { Typography } from '@material-ui/core'
 import ProposeFormContainer from '../../ui/proposeform/ProposeFormContainer'
 
+const styles = theme => ({
+  root: {
+    width: '100%',
+    backgroundColor: theme.palette.background.paper,
+  }
+});
+
 class Propose extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {}
+  }
+
   render() {
+    const { classes } = this.props;
     return(
-      <main className="container">
-        <div className="pure-g">
-          <div className="pure-u-1-1">
-            <h1>Propose</h1>
-            <p>Enter task title and content</p>
-            <ProposeFormContainer />
-          </div>
-        </div>
-      </main>
+      <div className={classes.root}>
+        <Typography variant="headline" color="inherit">
+          Propose task
+        </Typography>
+        <Typography variant="subheading" color="inherit">
+          Enter task title and content
+        </Typography>
+        <ProposeFormContainer />
+      </div>
     )
   }
 }
 
-export default Propose
+Propose.propTypes = {
+  classes: PropTypes.object.isRequired,
+}
+
+export default withStyles(styles)(Propose)

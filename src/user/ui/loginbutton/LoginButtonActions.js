@@ -52,7 +52,8 @@ export function loginUser() {
               return browserHistory.push(decodeURIComponent(currentLocation.query.redirect))
             }
 
-            return browserHistory.push('/dashboard')
+            alert("Congratulations " + store.getState().user.data.name + "! If you're seeing this message, you've logged in with your address successfully.")
+            return browserHistory.push('/')
           })
           .catch(function(result) {
             // If error, go to signup page.

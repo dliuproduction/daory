@@ -5,6 +5,8 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 
 // UI Components
 import LoginButtonContainer from './user/ui/loginbutton/LoginButtonContainer'
@@ -17,27 +19,37 @@ import store from './store.js'
 import './App.css'
 import 'typeface-roboto'
 
+const styles = theme => ({
+  button: {
+    margin: theme.spacing.unit,
+  },
+  input: {
+    display: 'none',
+  },
+});
 
 class App extends Component {
 
-  componentWillMount() {
-    // console.log("hi", this.props.route.web3.network)
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      web3: this.props.web3
+    }
   }
 
   render() {
+    const { classes } = this.props
+
     const OnlyAuthLinks = VisibleOnlyAuth(() =>
       <div>
-        <Button color="inherit" className="button">
+        <Button variant='raised' color="primary" className={classes.button}>
           <Link to="/propose" style={{ textDecoration: 'none' , color: "inherit"}}>
               Propose
           </Link>
         </Button>
-        <Button color="inherit" className="button">
-          <Link to="/dashboard" style={{ textDecoration: 'none' , color: "inherit"}}>
-              Dashboard
-          </Link>
-        </Button>
-        <Button color="inherit" className="button">
+
+        <Button variant='raised' color="primary" className={classes.button}>
           <Link to="/profile" style={{ textDecoration: 'none' , color: "inherit"}}>
               Profile
           </Link>
@@ -48,7 +60,7 @@ class App extends Component {
 
     const OnlyGuestLinks = HiddenOnlyAuth(() =>
       <div>
-        <Button color="inherit" className="button">
+        <Button variant='raised' color="primary" className={classes.button}>
           <Link to="/signup" style={{ textDecoration: 'none' , color: "inherit"}}>
               Sign Up
           </Link>
@@ -60,26 +72,30 @@ class App extends Component {
     const DetectWeb3 = () => {
       
       var web3 = store.getState().web3
-      var web3Status
       if (typeof web3.web3Instance !== 'undefined') {
-        web3Status = 'Web3 Detected: ' + web3.network
+        return (
+          <div>
+            <Typography variant="body2" color="inherit" className={classes.button}>
+            Web3 Detected: {web3.network}
+            </Typography>
+          </div>
+        )
       } else {
-        web3Status = 'Web3 Not Detected'
+        return (
+          <div>
+            <Typography variant="body2" color="error" className={classes.button}>
+            'Web3 Not Detected'
+            </Typography>
+          </div>
+        )
       }
-      return (
-        <div>
-          <Typography variant="body2" color="inherit">
-            {web3Status}
-          </Typography>
-        </div>
-      )
     }
 
     return (
       <div className="App">
           <AppBar position="sticky" color="primary">
             <Toolbar>
-              <Button color="inherit" className="button">
+              <Button variant='raised' color="primary" className={classes.button}>
                 <Link to="/" style={{ textDecoration: 'none' , color: "inherit"}}>
                   <Typography variant="headline" color="inherit">
                     Daory
@@ -98,4 +114,9 @@ class App extends Component {
   }
 }
 
-export default App
+App.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(App);
+

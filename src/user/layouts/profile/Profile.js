@@ -1,20 +1,41 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
+import { Typography } from '@material-ui/core'
 import ProfileFormContainer from '../../ui/profileform/ProfileFormContainer'
 
+const styles = theme => ({
+  root: {
+    width: '100%',
+    backgroundColor: theme.palette.background.paper,
+  }
+});
+
 class Profile extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {}
+  }
+
   render() {
+    const { classes } = this.props;
     return(
-      <main className="container">
-        <div className="pure-g">
-          <div className="pure-u-1-1">
-            <h1>Profile</h1>
-            <p>Edit your account details here.</p>
-            <ProfileFormContainer />
-          </div>
-        </div>
-      </main>
+      <div className={classes.root}>
+        <Typography variant="headline" color="inherit">
+          Profile
+        </Typography>
+        <Typography variant="subheading" color="inherit">
+          Change your name here
+        </Typography>
+        <ProfileFormContainer />
+      </div>
     )
   }
 }
 
-export default Profile
+Profile.propTypes = {
+  classes: PropTypes.object.isRequired,
+}
+
+export default withStyles(styles)(Profile)

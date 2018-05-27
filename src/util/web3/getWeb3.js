@@ -17,40 +17,6 @@ function web3NotFound(results) {
   }
 }
 
-// const getNetwork = (web3) => {
-//   web3.version.getNetwork((err, netId) => {
-//     console.log(err, netId)
-//     switch (netId) {
-//       case "1":
-//         network = 'Mainnet')
-//       case "2":
-//         network = 'Morden Testnet')
-//       case "3":
-//         network = 'Ropsten Testnet')
-//       case "4":
-//         network = 'Rinkeby Testnet')
-//       case "42":
-//         network = 'Kovan Testnet')
-//       default:
-//         network = 'Unknown Network ID: ' + netId)
-//     }
-//     // switch (web3.version.network) {
-//     //   case "1":
-//     //     network = 'Mainnet')
-//     //   case "2":
-//     //     network = 'Morden Testnet')
-//     //   case "3":
-//     //     network = 'Ropsten Testnet')
-//     //   case "4":
-//     //     network = 'Rinkeby Testnet')
-//     //   case "42":
-//     //     network = 'Kovan Testnet')
-//     //   default:
-//     //     network = 'Unknown Network ID: ' + web3.version.network)
-//     // }
-//   })
-// }
-
 let getWeb3 = new Promise(function(resolve, reject) {
   // Wait for loading completion to avoid race conditions with web3 injection timing.
   window.addEventListener('load', function(dispatch) {
