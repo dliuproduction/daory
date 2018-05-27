@@ -13,10 +13,38 @@ const styles = theme => ({
 });
 
 class TaskList extends Component {
-  state = { open: true };
 
-  componentDidMount() {
-    
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      open: true,
+      // tasks: this.props.tasks
+      tasks: [{
+        proposer: '', // member who proposed the task 
+        title: 'test1', // task name
+        content: '', // task detail
+        voteCount: 0, // number of accumulated votes
+        nonconsensus: false, // bool to signal that someone voted no
+        finished: false // bool to signal voting has finished
+      },{
+        proposer: '', // member who proposed the task 
+        title: 'test2', // task name
+        content: '', // task detail
+        voteCount: 0, // number of accumulated votes
+        nonconsensus: false, // bool to signal that someone voted no
+        finished: false // bool to signal voting has finished
+      }]
+    }
+  }
+
+  updateTasks = () => {
+    var taskList = []
+    for(let i=0; i<this.state.tasks.length; i++){ 
+      taskList.push(TaskCard( this.state.tasks[i] ))
+    }
+
+    return <div>{taskList}</div>
   }
 
   handleClick = () => {
@@ -42,12 +70,7 @@ class TaskList extends Component {
 
           <Collapse in={this.state.open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              <ListItem>
-                <TaskCard />
-              </ListItem>
-              <ListItem>
-                <TaskCard />
-              </ListItem>
+              {this.updateTasks()}
             </List>
           </Collapse>
 

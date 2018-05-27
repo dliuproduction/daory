@@ -1,9 +1,26 @@
 import { connect } from 'react-redux'
-import ProposeForm from './ProposeForm'
-import { proposeTask } from './ProposeFormActions'
+import TaskList from './TaskList'
+import { getTasks } from './TaskListActions'
 
 const mapStateToProps = (state, ownProps) => {
-  return {}
+  return {
+    // tasks: state.task.data.taskList
+    tasks: [{
+      proposer: '', // member who proposed the task 
+      title: 'test1', // task name
+      content: '', // task detail
+      voteCount: 0, // number of accumulated votes
+      nonconsensus: false, // bool to signal that someone voted no
+      finished: false // bool to signal voting has finished
+    },{
+      proposer: '', // member who proposed the task 
+      title: 'test2', // task name
+      content: '', // task detail
+      voteCount: 0, // number of accumulated votes
+      nonconsensus: false, // bool to signal that someone voted no
+      finished: false // bool to signal voting has finished
+    }]
+  }
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -11,14 +28,14 @@ const mapDispatchToProps = (dispatch) => {
     getTaskList: () => {
       event.preventDefault();
 
-      dispatch(proposeTask(title, content))
+      dispatch(getTasks())
     }
   }
 }
 
-const ProposeFormContainer = connect(
+const TaskListContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(ProposeForm)
+)(TaskList)
 
-export default ProposeFormContainer
+export default TaskListContainer
