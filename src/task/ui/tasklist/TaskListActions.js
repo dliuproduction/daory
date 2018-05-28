@@ -3,11 +3,11 @@ import store from '../../../store'
 
 const contract = require('truffle-contract')
 
-export const TASK_PROPOSED = 'TASK_PROPOSED'
-function taskProposed(task) {
-  return {
-    type: TASK_PROPOSED,
-    payload: task
+export const TASKS_RETRIVED = 'TASKS_RETRIVED'
+function tasksRetrived(tasks) {
+return {
+    type: TASKS_RETRIVED,
+    payload: tasks
   }
 }
 
@@ -32,24 +32,30 @@ export function getTasks() {
           console.error(error);
         }
 
-        DAO.deployed().then(function(instance) {
+        DAO.deployed()
+        .then(function(instance) {
           DAOInstance = instance
 
           // get the current task count
           DAOInstance.getTaskCount.call()({from: coinbase})
           .then(function(count) {
-            
+
             console.log("task count: " + count)
 
-            // DAOInstance.tasks.call()
-            // dispatch(taskProposed({'title': title, 'content': content}))
-
-            // return alert('Task Proposed!, transaction ID: ', result)
+            let tasks = []
+            
+            DAOInstance.tasks.call()
+            dispatch(tasksRetrived())
+            
+            return alert('Tasks retrieved')
           })
           .catch(function(result) {
             // If error...
             return alert('Error! (' + result + ')')
           })
+        })
+        .catch(function(result) {
+          console.log('DAO not deployed')
         })
       })
     }

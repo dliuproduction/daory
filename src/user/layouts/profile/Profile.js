@@ -22,10 +22,10 @@ class Profile extends Component {
     const { classes } = this.props;
     return(
       <div className={classes.root}>
-        <Typography variant="headline" color="inherit">
+        <Typography variant="display2">
           Profile
         </Typography>
-        <Typography variant="subheading" color="inherit">
+        <Typography variant="subheading">
           Change your name here
         </Typography>
         <ProfileFormContainer />

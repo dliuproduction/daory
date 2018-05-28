@@ -40,7 +40,6 @@ export function loginUser() {
           DAOInstance.login({from: coinbase})
           .then(function(userName) {
             // If no error, login user.
-            // var userName = web3.toUtf8(result)
             dispatch(userLoggedIn({"name": userName}))
 
             // Used a manual redirect here as opposed to a wrapper.

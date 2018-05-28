@@ -4,28 +4,35 @@ import { getTasks } from './TaskListActions'
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    // tasks: state.task.data.taskList
+    // tasks: state.task.tasks
     tasks: [{
-      proposer: '', // member who proposed the task 
+      proposer: '0x678cbbd9be694d05ef5c0b8092399c03599c26bb', // member who proposed the task 
       title: 'test passing props', // task name
-      content: '', // task detail
+      content: 'content1', // task detail
       voteCount: 0, // number of accumulated votes
       nonconsensus: false, // bool to signal that someone voted no
       finished: false // bool to signal voting has finished
     },{
-      proposer: '', // member who proposed the task 
-      title: 'test2', // task name
-      content: '', // task detail
-      voteCount: 0, // number of accumulated votes
-      nonconsensus: false, // bool to signal that someone voted no
-      finished: false // bool to signal voting has finished
+      proposer: '0x0000000000000000000000000000000000000000',  
+      title: 'test approved', 
+      content: 'content2', 
+      voteCount: 0, 
+      nonconsensus: false,
+      finished: true 
+    },{
+      proposer: '0x0000000000000000000000000000000000000000',
+      title: 'test disapproved', 
+      content: 'content3', 
+      voteCount: 0, 
+      nonconsensus: true, 
+      finished: true 
     }]
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getTaskList: () => {
+    getTasks: () => {
       event.preventDefault();
 
       dispatch(getTasks())

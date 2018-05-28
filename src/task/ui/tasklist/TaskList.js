@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { List , ListSubheader, ListItem, ListItemIcon, ListItemText, Collapse } from '@material-ui/core';
+import { List , ListItem, ListItemIcon, ListItemText, Collapse, Typography } from '@material-ui/core';
 import { CheckBoxOutlineBlank, CheckBox, IndeterminateCheckBox, ExpandLess, ExpandMore } from '@material-ui/icons';
 import TaskCard from './TaskCard.js'
+import { getTasks } from './TaskListActions.js';
 
 const styles = theme => ({
   root: {
@@ -18,33 +19,59 @@ class TaskList extends Component {
     super(props)
 
     this.state = {
-      open: true,
       tasks: this.props.tasks
-      // tasks: [{
-      //   proposer: '', // member who proposed the task 
-      //   title: 'test1', // task name
-      //   content: '', // task detail
-      //   voteCount: 0, // number of accumulated votes
-      //   nonconsensus: false, // bool to signal that someone voted no
-      //   finished: false // bool to signal voting has finished
-      // },{
-      //   proposer: '', // member who proposed the task 
-      //   title: 'test2', // task name
-      //   content: '', // task detail
-      //   voteCount: 0, // number of accumulated votes
-      //   nonconsensus: false, // bool to signal that someone voted no
-      //   finished: false // bool to signal voting has finished
-      // }]
     }
   }
 
   updateTasks = () => {
-    var taskList = []
+    getTasks()
+    var proposedList = [],
+    approvedList = [],
+    disapprovedList = []
     for(let i=0; i<this.state.tasks.length; i++){ 
-      taskList.push(TaskCard( this.state.tasks[i] ))
+      let task = this.state.tasks[i]
+      if (!task.finished) {
+        proposedList.push(<ListItem key={i.toString()}>{TaskCard(task)}</ListItem>)
+      } else if (!task.nonconsensus) {
+        approvedList.push(<ListItem key={i.toString()}>{TaskCard(task)}</ListItem>)
+      } else {
+        disapprovedList.push(<ListItem key={i.toString()}>{TaskCard(task)}</ListItem>)
+      }
     }
 
-    return <div>{taskList}</div>
+    return (
+      <div>
+        <List component="div" disablePadding>
+          <ListItem>
+            <ListItemIcon>
+              <CheckBoxOutlineBlank/>
+            </ListItemIcon>
+            <ListItemText inset primary="Proposed" />
+          </ListItem>
+          {proposedList}
+        </List>
+
+        <List component="div" disablePadding>
+          <ListItem>
+            <ListItemIcon>
+              <CheckBox />
+            </ListItemIcon>
+            <ListItemText inset primary="Approved" />
+          </ListItem>
+          {approvedList}
+        </List>
+
+        <List component="div" disablePadding>
+          <ListItem>
+            <ListItemIcon>
+              <IndeterminateCheckBox />
+            </ListItemIcon>
+            <ListItemText inset primary="Disapproved" />
+          </ListItem>
+          {disapprovedList}
+        </List>
+      </div>
+    )
   }
 
   handleClick = () => {
@@ -56,63 +83,10 @@ class TaskList extends Component {
 
     return (
       <div className={classes.root}>
-        <List
-          component="nav"
-          subheader={<ListSubheader component="div">Nested List Items</ListSubheader>}
-        >
-          <ListItem button onClick={this.handleClick}>
-            <ListItemIcon>
-              <CheckBoxOutlineBlank />
-            </ListItemIcon>
-            <ListItemText inset primary="Proposed" />
-            {this.state.open ? <ExpandLess /> : <ExpandMore />}
-          </ListItem>
-
-          <Collapse in={this.state.open} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              {this.updateTasks()}
-            </List>
-          </Collapse>
-
-          <ListItem button onClick={this.handleClick}>
-            <ListItemIcon>
-              <CheckBox />
-            </ListItemIcon>
-            <ListItemText inset primary="Approved" />
-            {this.state.open ? <ExpandLess /> : <ExpandMore />}
-          </ListItem>
-
-          <Collapse in={this.state.open} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <ListItem>
-                <TaskCard />
-              </ListItem>
-              <ListItem>
-                <TaskCard />
-              </ListItem>
-            </List>
-          </Collapse>
-
-          <ListItem button onClick={this.handleClick}>
-            <ListItemIcon>
-              <IndeterminateCheckBox />
-            </ListItemIcon>
-            <ListItemText inset primary="Disapproved" />
-            {this.state.open ? <ExpandLess /> : <ExpandMore />}
-          </ListItem>
-
-          <Collapse in={this.state.open} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <ListItem>
-                <TaskCard />
-              </ListItem>
-              <ListItem>
-                <TaskCard />
-              </ListItem>
-            </List>
-          </Collapse>
-
-        </List>
+          <Typography variant='display2'>
+            List of tasks
+          </Typography>
+            {this.updateTasks()}
       </div>
     )
   }

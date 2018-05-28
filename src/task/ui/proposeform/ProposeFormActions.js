@@ -48,7 +48,15 @@ export function proposeTask(title, content) {
 
           DAOInstance.newTask().watch((err, res) => {
             
-            dispatch(taskProposed({'title': title, 'content': content}))
+            dispatch(taskProposed(
+              {
+                  proposer: coinbase, // member who proposed the task 
+                  title: title,       // task name
+                  content: content,   // task detail
+                  voteCount: 0,       // number of accumulated votes
+                  nonconsensus: false, // bool to signal that someone voted no
+                  finished: false     // bool to signal voting has finished
+              }))
           })
         })
       })

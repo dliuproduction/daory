@@ -1,12 +1,15 @@
 const initialState = {
-    data: null
+    tasks: []
   }
   
   const taskReducer = (state = initialState, action) => {
-    if (action.type === 'TASK_PROPOSED')
-    {
+    if (action.type === 'TASK_PROPOSED') {
       return Object.assign({}, state, {
-        data: action.payload
+        tasks: state.tasks.push(action.payload)
+      })
+    }  else if (action.type === 'TASKS_RETRIEVED') {
+      return Object.assign({}, state, {
+        tasks: action.payload
       })
     }
     return state

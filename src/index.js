@@ -12,7 +12,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 // Layouts
 import App from './App'
 import Home from './layouts/home/Home'
-import Dashboard from './layouts/dashboard/Dashboard'
+// import Dashboard from './layouts/dashboard/Dashboard'
 import SignUp from './user/layouts/signup/SignUp'
 import Profile from './user/layouts/profile/Profile'
 import Propose from './task/layouts/propose/Propose'

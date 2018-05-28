@@ -22,10 +22,10 @@ class Propose extends Component {
     const { classes } = this.props;
     return(
       <div className={classes.root}>
-        <Typography variant="headline" color="inherit">
+        <Typography variant="display2">
           Propose task
         </Typography>
-        <Typography variant="subheading" color="inherit">
+        <Typography variant="subheading">
           Enter task title and content
         </Typography>
         <ProposeFormContainer />
