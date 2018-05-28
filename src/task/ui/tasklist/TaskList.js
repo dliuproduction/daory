@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { List , ListItem, ListItemIcon, ListItemText, Collapse, Typography } from '@material-ui/core';
-import { CheckBoxOutlineBlank, CheckBox, IndeterminateCheckBox, ExpandLess, ExpandMore } from '@material-ui/icons';
+import { List , ListItem, ListItemIcon, ListItemText, Typography } from '@material-ui/core';
+import { CheckBoxOutlineBlank, CheckBox, IndeterminateCheckBox } from '@material-ui/icons';
 import TaskCard from './TaskCard.js'
-import { getTasks } from './TaskListActions.js';
 
 const styles = theme => ({
   root: {
@@ -23,8 +22,11 @@ class TaskList extends Component {
     }
   }
 
+  componentWillMount() {
+    this.props.getTasks(event)
+  }
+
   updateTasks = () => {
-    getTasks()
     var proposedList = [],
     approvedList = [],
     disapprovedList = []
@@ -38,7 +40,6 @@ class TaskList extends Component {
         disapprovedList.push(<ListItem key={i.toString()}>{TaskCard(task)}</ListItem>)
       }
     }
-
     return (
       <div>
         <List component="div" disablePadding>

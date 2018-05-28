@@ -11,7 +11,7 @@ return {
   }
 }
 
-export function getTasks() {
+export function retrieveTasks() {
   let web3 = store.getState().web3.web3Instance
 
   // Double-check web3's status.
@@ -37,16 +37,21 @@ export function getTasks() {
           DAOInstance = instance
 
           // get the current task count
-          DAOInstance.getTaskCount.call()({from: coinbase})
+          DAOInstance.getTaskCount.call({from: coinbase})
           .then(function(count) {
 
             console.log("task count: " + count)
 
             let tasks = []
-            
-            DAOInstance.tasks.call()
-            dispatch(tasksRetrived())
-            
+            for(let i=0; i<count; i++){
+              
+              // get specific task and push to an array
+              DAOInstance.tasks.call(i, {from: coinbase})
+              .then(function(task) {
+                tasks.push(task)
+              })
+            }
+            dispatch(tasksRetrived(tasks))
             return alert('Tasks retrieved')
           })
           .catch(function(result) {
