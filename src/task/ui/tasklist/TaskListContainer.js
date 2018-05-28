@@ -7,7 +7,7 @@ const mapStateToProps = (state, ownProps) => {
     // tasks: state.task.data.taskList
     tasks: [{
       proposer: '', // member who proposed the task 
-      title: 'test1', // task name
+      title: 'test passing props', // task name
       content: '', // task detail
       voteCount: 0, // number of accumulated votes
       nonconsensus: false, // bool to signal that someone voted no

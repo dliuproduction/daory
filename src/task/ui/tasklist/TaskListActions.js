@@ -1,4 +1,3 @@
-import AuthenticationContract from '../../../../build/contracts/Authentication.json'
 import DAOContract from '../../../../build/contracts/DAO.json'
 import store from '../../../store'
 
@@ -42,10 +41,10 @@ export function getTasks() {
             
             console.log("task count: " + count)
 
-            DAOInstance.tasks.call()
-            dispatch(taskProposed({'title': title, 'content': content}))
+            // DAOInstance.tasks.call()
+            // dispatch(taskProposed({'title': title, 'content': content}))
 
-            return alert('Task Proposed!, transaction ID: ', result)
+            // return alert('Task Proposed!, transaction ID: ', result)
           })
           .catch(function(result) {
             // If error...

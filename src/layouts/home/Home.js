@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import { HiddenOnlyAuth, VisibleOnlyAuth } from '../../util/wrappers.js'
-import TaskList from "../../task/ui/tasklist/TaskList.js"
+import TaskListContainer from "../../task/ui/tasklist/TaskListContainer.js"
 import { Typography } from '@material-ui/core';
 
 class Home extends Component {
   render() {
 
     const AuthHome = VisibleOnlyAuth(() =>
-      <TaskList />
+      <TaskListContainer />
     )
 
     const GuestHome = HiddenOnlyAuth(() =>

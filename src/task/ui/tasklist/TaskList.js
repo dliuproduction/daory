@@ -19,22 +19,22 @@ class TaskList extends Component {
 
     this.state = {
       open: true,
-      // tasks: this.props.tasks
-      tasks: [{
-        proposer: '', // member who proposed the task 
-        title: 'test1', // task name
-        content: '', // task detail
-        voteCount: 0, // number of accumulated votes
-        nonconsensus: false, // bool to signal that someone voted no
-        finished: false // bool to signal voting has finished
-      },{
-        proposer: '', // member who proposed the task 
-        title: 'test2', // task name
-        content: '', // task detail
-        voteCount: 0, // number of accumulated votes
-        nonconsensus: false, // bool to signal that someone voted no
-        finished: false // bool to signal voting has finished
-      }]
+      tasks: this.props.tasks
+      // tasks: [{
+      //   proposer: '', // member who proposed the task 
+      //   title: 'test1', // task name
+      //   content: '', // task detail
+      //   voteCount: 0, // number of accumulated votes
+      //   nonconsensus: false, // bool to signal that someone voted no
+      //   finished: false // bool to signal voting has finished
+      // },{
+      //   proposer: '', // member who proposed the task 
+      //   title: 'test2', // task name
+      //   content: '', // task detail
+      //   voteCount: 0, // number of accumulated votes
+      //   nonconsensus: false, // bool to signal that someone voted no
+      //   finished: false // bool to signal voting has finished
+      // }]
     }
   }
 
