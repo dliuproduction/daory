@@ -12,6 +12,9 @@ import { withStyles } from '@material-ui/core/styles';
 import LoginButtonContainer from './user/ui/loginbutton/LoginButtonContainer'
 import LogoutButtonContainer from './user/ui/logoutbutton/LogoutButtonContainer'
 
+// Web3 detection component
+import Web3StatusContainer from './util/web3/web3status/Web3StatusContainer'
+
 // Redux Store
 import store from './store.js'
 
@@ -105,6 +108,7 @@ class App extends Component {
               <OnlyGuestLinks />
               <OnlyAuthLinks />
               <DetectWeb3 />
+              {/* <Web3StatusContainer /> */}
             </Toolbar>
           </AppBar>
         {this.props.children}
