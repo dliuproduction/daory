@@ -96,9 +96,9 @@ class App extends Component {
           <AppBar position="sticky" color="primary">
             <Toolbar>
               <Button variant='raised' color="primary" className={classes.button}>
-                <Link to="/" style={{ textDecoration: 'none' , color: "inherit"}}>
+                <Link to="/taskboard" style={{ textDecoration: 'none' , color: "inherit"}}>
                   <Typography variant="headline" color="inherit">
-                    Daory
+                    Task Board
                   </Typography>
                 </Link>
               </Button>

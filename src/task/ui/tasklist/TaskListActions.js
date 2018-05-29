@@ -3,10 +3,10 @@ import store from '../../../store'
 
 const contract = require('truffle-contract')
 
-export const TASKS_RETRIVED = 'TASKS_RETRIVED'
-function tasksRetrived(tasks) {
+export const TASKS_RETRIEVED = 'TASKS_RETRIEVED'
+function tasksRetrieved(tasks) {
 return {
-    type: TASKS_RETRIVED,
+    type: TASKS_RETRIEVED,
     payload: tasks
   }
 }
@@ -51,7 +51,7 @@ export function retrieveTasks() {
                 tasks.push(task)
               })
             }
-            dispatch(tasksRetrived(tasks))
+            dispatch(tasksRetrieved(tasks))
             return alert('Tasks retrieved')
           })
           .catch(function(result) {

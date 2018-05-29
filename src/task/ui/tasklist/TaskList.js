@@ -22,9 +22,9 @@ class TaskList extends Component {
     }
   }
 
-  componentWillMount() {
-    this.props.getTasks(event)
-  }
+  // componentWillMount() {
+  //   this.props.getTasks(event)
+  // }
 
   updateTasks = () => {
     var proposedList = [],
