@@ -39,20 +39,21 @@ export function proposeTask(title, content) {
           DAOInstance.propose(title, content, {from: coinbase})
           .then(function(result) {
             // If no error, propose task
-            return alert('Task Proposed!, transaction ID: ', result)
+            return alert('Task proposed, mining transaction!')
           })
           .catch(function(result) {
             // If error...
-            return alert('Error! (' + result + ')')
+            return alert('Error proposing task')
           })
 
           DAOInstance.newTask().watch((err, res) => {
-            
+            alert('new task proposal event')
             dispatch(taskProposed(
               {
-                  proposer: coinbase, // member who proposed the task 
-                  title: title,       // task name
-                  content: content,   // task detail
+                  proposer: res.proposer, // member who proposed the task 
+                  name: res.name,
+                  title: res.title,       // task name
+                  content: res.content,   // task detail
                   voteCount: 0,       // number of accumulated votes
                   nonconsensus: false, // bool to signal that someone voted no
                   finished: false     // bool to signal voting has finished

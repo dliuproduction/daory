@@ -22,12 +22,17 @@ class TaskList extends Component {
     }
   }
 
-  // componentDidMount() {
-  //   this.props.getTasks(event)
-  // }
+  componentDidMount() {
+    this.props.getTasks(event)
+    this.state = {
+      tasks: this.props.tasks
+    }
+    console.log('tasks in taskList: ')
+    console.log(this.props.tasks)
+  }
 
   updateTasks = () => {
-    var proposedList = [],
+    let proposedList = [],
     approvedList = [],
     disapprovedList = []
     for(let i=0; i<this.state.tasks.length; i++){ 
@@ -74,10 +79,6 @@ class TaskList extends Component {
       </div>
     )
   }
-
-  handleClick = () => {
-    this.setState({ open: !this.state.open });
-  };
 
   render() {
     const { classes } = this.props;

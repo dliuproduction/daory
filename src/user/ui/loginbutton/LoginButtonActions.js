@@ -6,12 +6,14 @@ const contract = require('truffle-contract')
 
 export const TASKS_RETRIEVED = 'TASKS_RETRIEVED'
 export const USER_LOGGED_IN = 'USER_LOGGED_IN'
+
 function tasksRetrieved(tasks) {
 return {
     type: TASKS_RETRIEVED,
     payload: tasks
   }
 }
+
 function userLoggedIn(user) {
   return {
     type: USER_LOGGED_IN,
@@ -48,16 +50,7 @@ export function loginUser() {
           .then(function(userName) {
             // If no error, login user.
             dispatch(userLoggedIn({"name": userName}))
-
-            // Used a manual redirect here as opposed to a wrapper.
-            // This way, once logged in a user can still access the home page.
-            var currentLocation = browserHistory.getCurrentLocation()
-
-            if ('redirect' in currentLocation.query)
-            {
-              return browserHistory.push(decodeURIComponent(currentLocation.query.redirect))
-            }
-
+            alert("Congratulations " + userName + "! If you're seeing this message, you've logged in with your address successfully.")
             // get the current task count
             DAOInstance.getTaskCount.call({from: coinbase})
             .then(function(count) {
@@ -67,21 +60,32 @@ export function loginUser() {
                 
                 // get specific task and push to an array
                 DAOInstance.tasks.call(i, {from: coinbase})
-                .then(function(task) {
+                .then(function(res) {
+                  let task = {
+                    proposer: res[0], // member who proposed the task 
+                    name: res[1],
+                    title: res[2],       // task name
+                    content: res[3],   // task detail
+                    voteCount: res[4].toNumber(),       // number of accumulated votes
+                    nonconsensus: res[5], // bool to signal that someone voted no
+                    finished: res[6]     // bool to signal voting has finished
+                }
                   tasks.push(task)
+                })
+                .catch(function(err) {
+                  return alert('failed to get tasks: ' + err)
                 })
               }
               dispatch(tasksRetrieved(tasks))
               console.log('Tasks retrieved, count:' + count)
+              console.log('tasks in loginbuttonactions: ')
+              console.log(tasks)
+              return browserHistory.push('/taskboard')
             })
-
-            alert("Congratulations " + store.getState().user.data.name + "! If you're seeing this message, you've logged in with your address successfully.")
-            return browserHistory.push('/taskboard')
           })
           .catch(function(result) {
             // If error, go to signup page.
             console.error('Wallet ' + coinbase + ' does not have an account!')
-
             return browserHistory.push('/signup')
           })
         })

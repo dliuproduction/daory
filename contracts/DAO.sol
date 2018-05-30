@@ -9,7 +9,8 @@ using SafeMath for uint256;
 
     // type for a single task
     struct Task {
-        address proposer; // member who proposed the task 
+        address proposer; // address who proposed the task 
+        string name; // member name who proposed the task
         string title;  // task name
         string content; // task detail
         uint256 voteCount; // number of accumulated votes
@@ -46,7 +47,7 @@ using SafeMath for uint256;
         _;
     }
 
-    event newTask(uint taskId, address proposer, string title, string content, uint voteCount);
+    event newTask(uint taskId, address proposer, string name, string title, string content);
     event newVote(uint taskId, uint voteCount);
     event voteFinished(uint taskId, bool approved);
     event taskRemoved(uint taskId);
@@ -58,8 +59,8 @@ using SafeMath for uint256;
     function propose(string title, string content) public onlyExistingMember {
         
         // push returns new length, hence the new task's ID is length - 1 
-        uint taskId = tasks.push(Task(msg.sender, title, content, 0, false, false)) - 1;
-        emit newTask(taskId, msg.sender, title, content, 1);
+        uint taskId = tasks.push(Task(msg.sender, members[msg.sender].name, title, content, 0, false, false)) - 1;
+        emit newTask(taskId, msg.sender, members[msg.sender].name, title, content);
     }
 
     /// @notice Vote on a task by its id

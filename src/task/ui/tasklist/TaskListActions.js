@@ -47,16 +47,24 @@ export function retrieveTasks() {
               
               // get specific task and push to an array
               DAOInstance.tasks.call(i, {from: coinbase})
-              .then(function(task) {
+              .then(function(res) {
+                let task = {
+                  proposer: res[0], // member who proposed the task 
+                  name: res[1],
+                  title: res[2],       // task name
+                  content: res[3],   // task detail
+                  voteCount: res[4].toNumber(),       // number of accumulated votes
+                  nonconsensus: res[5], // bool to signal that someone voted no
+                  finished: res[6]     // bool to signal voting has finished
+                }
                 tasks.push(task)
               })
+              .catch(function(err) {
+                alert('failed to get tasks: ' + err)
+              })
             }
-            dispatch(tasksRetrieved(tasks))
-            return alert('Tasks retrieved')
-          })
-          .catch(function(result) {
-            // If error...
-            return alert('Error! (' + result + ')')
+              dispatch(tasksRetrieved(tasks))
+              alert('Tasks retrieved')
           })
         })
         .catch(function(result) {
