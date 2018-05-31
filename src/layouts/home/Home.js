@@ -22,7 +22,7 @@ class Home extends Component {
 
     return(
       <main className="container">
-          <AuthHome />
+          {/* <AuthHome /> */}
           <GuestHome />
       </main>
     )

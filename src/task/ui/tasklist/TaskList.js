@@ -18,35 +18,59 @@ class TaskList extends Component {
     super(props)
 
     this.state = {
-      tasks: this.props.tasks
+      tasks: this.props.tasks,
+      proposedList: [],
+      approvedList: [],
+      disapprovedList: []
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.tasks.length !== this.props.tasks.length) {
+      this.setState ({
+        tasks: this.props.tasks
+      })
+      console.log('tasks in taskList state: ')
+      console.log(this.state.tasks)
+
+      for(let i=0; i<this.state.tasks.length; i++){ 
+        let task = this.state.tasks[i]
+        let taskCard = <ListItem key={i.toString()}>{TaskCard(task)}</ListItem>
+        console.log(task)
+        if (!task.finished) {
+          this.setState({
+            proposedList: [...this.state.proposedList, task]
+          })
+          console.log(this.state.proposedList)
+        } else if (!task.nonconsensus) {
+          this.setState({
+            approvedList: [...this.state.approvedList, taskCard]
+          })
+        } else {
+          this.setState({
+            disapprovedList: [...this.state.disapprovedList, taskCard]
+          })
+        }
+      }
+      console.log(this.state.proposedList)
     }
   }
 
   componentDidMount() {
     this.props.getTasks(event)
-    this.state = {
+    this.setState ({
       tasks: this.props.tasks
-    }
-    console.log('tasks in taskList: ')
-    console.log(this.props.tasks)
+    })
   }
 
-  updateTasks = () => {
-    let proposedList = [],
-    approvedList = [],
-    disapprovedList = []
-    for(let i=0; i<this.state.tasks.length; i++){ 
-      let task = this.state.tasks[i]
-      if (!task.finished) {
-        proposedList.push(<ListItem key={i.toString()}>{TaskCard(task)}</ListItem>)
-      } else if (!task.nonconsensus) {
-        approvedList.push(<ListItem key={i.toString()}>{TaskCard(task)}</ListItem>)
-      } else {
-        disapprovedList.push(<ListItem key={i.toString()}>{TaskCard(task)}</ListItem>)
-      }
-    }
+  render() {
+    const { classes } = this.props;
+
     return (
-      <div>
+      <div className={classes.root}>
+        <Typography variant='display2'>
+          List of tasks
+        </Typography>
         <List component="div" disablePadding>
           <ListItem>
             <ListItemIcon>
@@ -54,7 +78,8 @@ class TaskList extends Component {
             </ListItemIcon>
             <ListItemText inset primary="Proposed" />
           </ListItem>
-          {proposedList}
+          {/* {this.state.proposedList} */}
+          {console.log('tasks in render: ', this.state.tasks)}
         </List>
 
         <List component="div" disablePadding>
@@ -64,7 +89,7 @@ class TaskList extends Component {
             </ListItemIcon>
             <ListItemText inset primary="Approved" />
           </ListItem>
-          {approvedList}
+          {this.state.approvedList}
         </List>
 
         <List component="div" disablePadding>
@@ -74,21 +99,8 @@ class TaskList extends Component {
             </ListItemIcon>
             <ListItemText inset primary="Disapproved" />
           </ListItem>
-          {disapprovedList}
+          {this.state.disapprovedList}
         </List>
-      </div>
-    )
-  }
-
-  render() {
-    const { classes } = this.props;
-
-    return (
-      <div className={classes.root}>
-          <Typography variant='display2'>
-            List of tasks
-          </Typography>
-            {this.updateTasks()}
       </div>
     )
   }
