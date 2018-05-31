@@ -1,10 +1,12 @@
 import { connect } from 'react-redux'
 import TaskList from './TaskList'
-import { retrieveTasks, watchTasks } from './TaskListActions'
+import { retrieveTasks } from './TaskListActions'
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    tasks: state.task.tasks
+    proposedList: state.task.proposedList,
+    approvedList: state.task.approvedList,
+    disapprovedList: state.task.disapprovedList
   }
 }
 

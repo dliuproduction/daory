@@ -18,49 +18,47 @@ class TaskList extends Component {
     super(props)
 
     this.state = {
-      tasks: this.props.tasks,
-      proposedList: [],
-      approvedList: [],
-      disapprovedList: []
+      proposedList: this.props.proposedList,
+      approvedList: this.props.approvedList,
+      disapprovedList: this.props.disapprovedList
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.tasks.length !== this.props.tasks.length) {
+    if (prevState.proposedList.length !== this.props.proposedList.length) {
       this.setState ({
-        tasks: this.props.tasks
+        proposedList: this.props.proposedList
+      }, function() {
+        console.log(
+          '\nproposed tasks updated in taskList state: ', this.state.proposedList,
+        )
+      }) 
+    } else if (prevState.approvedList.length !== this.props.approvedList.length) {
+      this.setState ({
+        approvedList: this.props.approvedList
+      }, function() {
+        console.log(
+          '\napproved tasks updated in taskList state: ', this.state.approvedList,
+        )
       })
-      console.log('tasks in taskList state: ')
-      console.log(this.state.tasks)
-
-      for(let i=0; i<this.state.tasks.length; i++){ 
-        let task = this.state.tasks[i]
-        let taskCard = <ListItem key={i.toString()}>{TaskCard(task)}</ListItem>
-        console.log(task)
-        if (!task.finished) {
-          this.setState({
-            proposedList: [...this.state.proposedList, task]
-          })
-          console.log(this.state.proposedList)
-        } else if (!task.nonconsensus) {
-          this.setState({
-            approvedList: [...this.state.approvedList, taskCard]
-          })
-        } else {
-          this.setState({
-            disapprovedList: [...this.state.disapprovedList, taskCard]
-          })
-        }
-      }
-      console.log(this.state.proposedList)
+    } else if (prevState.disapprovedList.length !== this.props.disapprovedList.length) {
+      this.setState ({
+        disapprovedList: this.props.disapprovedList
+      }, function() {
+        console.log(
+          '\ndisapproved tasks updated in taskList state: ', this.state.disapprovedList,
+        )
+      })
     }
   }
 
   componentDidMount() {
     this.props.getTasks(event)
-    this.setState ({
-      tasks: this.props.tasks
-    })
+    // this.setState ({
+    //   proposedList: this.props.proposedList,
+    //   approvedList: this.props.approvedList,
+    //   disapprovedList: this.props.disapprovedList
+    // })
   }
 
   render() {
@@ -78,8 +76,7 @@ class TaskList extends Component {
             </ListItemIcon>
             <ListItemText inset primary="Proposed" />
           </ListItem>
-          {/* {this.state.proposedList} */}
-          {console.log('tasks in render: ', this.state.tasks)}
+          {this.state.proposedList}
         </List>
 
         <List component="div" disablePadding>

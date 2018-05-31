@@ -1,16 +1,19 @@
+import React from 'react'
+import { ListItem } from '@material-ui/core'
 import DAOContract from '../../../../build/contracts/DAO.json'
 import { browserHistory } from 'react-router'
 import store from '../../../store'
+import TaskCard from '../../../task/ui/tasklist/TaskCard.js'
 
 const contract = require('truffle-contract')
 
 export const TASKS_RETRIEVED = 'TASKS_RETRIEVED'
 export const USER_LOGGED_IN = 'USER_LOGGED_IN'
 
-function tasksRetrieved(tasks) {
+function tasksRetrieved(lists) {
 return {
     type: TASKS_RETRIEVED,
-    payload: tasks
+    payload: lists
   }
 }
 
@@ -18,6 +21,43 @@ function userLoggedIn(user) {
   return {
     type: USER_LOGGED_IN,
     payload: user
+  }
+}
+
+function asyncGetAllTasks(DAOInstance, coinbase, i, count, result, dispatch) {
+  if(i < count) {
+    // get specific task and push to an array
+    DAOInstance.tasks.call(i, {from: coinbase})
+    .then(function(res) {
+      let task = {
+        proposer: res[0], // member who proposed the task 
+        name: res[1],
+        title: res[2],       // task name
+        content: res[3],   // task detail
+        voteCount: res[4].toNumber(),       // number of accumulated votes
+        nonconsensus: res[5], // bool to signal that someone voted no
+        finished: res[6]     // bool to signal voting has finished
+      }
+
+      let taskCard = <ListItem key={i.toString()}>{TaskCard(task)}</ListItem>
+      if (!task.finished) {
+        result.proposedList.push(taskCard)
+        console.log('asynchronously put task #', i, ' in proposedList ', result.proposedList)
+      } else if (!task.nonconsensus) {
+        result.approvedList.push(taskCard)
+        console.log('asynchronously put task #', i, ' in approvedList ', result.approvedList)
+      } else {
+        result.disapprovedList.push(taskCard)
+        console.log('asynchronously put task #', i, ' in disapprovedList ', result.disapprovedList)
+      }
+      asyncGetAllTasks(DAOInstance, coinbase, i + 1, count, result, dispatch)
+    })
+    .catch(function(err) {
+      alert('failed to get task #' + i)
+    })
+  } else {
+    console.log('dispatching tasks update')
+    dispatch(tasksRetrieved(result))
   }
 }
 
@@ -54,34 +94,14 @@ export function loginUser() {
             // get the current task count
             DAOInstance.getTaskCount.call({from: coinbase})
             .then(function(count) {
-
-              let tasks = []
-              for(let i=0; i<count; i++){
-                
-                // get specific task and push to an array
-                DAOInstance.tasks.call(i, {from: coinbase})
-                .then(function(res) {
-                  let task = {
-                    proposer: res[0], // member who proposed the task 
-                    name: res[1],
-                    title: res[2],       // task name
-                    content: res[3],   // task detail
-                    voteCount: res[4].toNumber(),       // number of accumulated votes
-                    nonconsensus: res[5], // bool to signal that someone voted no
-                    finished: res[6]     // bool to signal voting has finished
-                }
-                  tasks.push(task)
-                })
-                .catch(function(err) {
-                  return alert('failed to get tasks: ' + err)
-                })
+              let lists = {
+                proposedList: [],
+                approvedList: [],
+                disapprovedList: []
               }
-              dispatch(tasksRetrieved(tasks))
-              console.log('Tasks retrieved, count:' + count)
-              console.log('tasks in loginbuttonactions: ')
-              console.log(tasks)
-              return browserHistory.push('/taskboard')
+              asyncGetAllTasks(DAOInstance, coinbase, 0, count, lists, dispatch)
             })
+            return browserHistory.push('/taskboard')
           })
           .catch(function(result) {
             // If error, go to signup page.

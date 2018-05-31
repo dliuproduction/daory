@@ -45,23 +45,6 @@ export function proposeTask(title, content) {
             // If error...
             return alert('Error proposing task')
           })
-
-          // DAOInstance.newTask().watch((err, res) => {
-          //   if (!error) {
-          //     alert('new task proposal event')
-          //     console.log(res)
-          //     dispatch(taskProposed(
-          //     {
-          //       proposer: res.args.proposer, // member who proposed the task 
-          //       name: res.args.name,
-          //       title: res.args.title,       // task name
-          //       content: res.args.content,   // task detail
-          //       voteCount: 0,       // number of accumulated votes
-          //       nonconsensus: false, // bool to signal that someone voted no
-          //       finished: false     // bool to signal voting has finished
-          //     }))
-          //   }
-          // })
         })
       })
     }
