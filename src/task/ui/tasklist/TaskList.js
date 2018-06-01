@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { List , ListItem, ListItemIcon, ListItemText, Typography } from '@material-ui/core';
 import { CheckBoxOutlineBlank, CheckBox, IndeterminateCheckBox } from '@material-ui/icons';
-import TaskCard from './TaskCard.js'
 
 const styles = theme => ({
   root: {

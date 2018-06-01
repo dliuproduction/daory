@@ -25,21 +25,23 @@ function userLoggedIn(user) {
 }
 
 function asyncGetAllTasks(DAOInstance, coinbase, i, count, result, dispatch) {
+  console.log('task count ', count.toNumber())
   if(i < count) {
     // get specific task and push to an array
     DAOInstance.tasks.call(i, {from: coinbase})
     .then(function(res) {
       let task = {
-        proposer: res[0], // member who proposed the task 
-        name: res[1],
-        title: res[2],       // task name
-        content: res[3],   // task detail
-        voteCount: res[4].toNumber(),       // number of accumulated votes
-        nonconsensus: res[5], // bool to signal that someone voted no
-        finished: res[6]     // bool to signal voting has finished
+        taskId: res[0].toNumber(),
+        proposer: res[1], // member who proposed the task 
+        name: res[2],
+        title: res[3],       // task name
+        content: res[4],   // task detail
+        voteCount: res[5].toNumber(),       // number of accumulated votes
+        nonconsensus: res[6], // bool to signal that someone voted no
+        finished: res[7]     // bool to signal voting has finished
       }
 
-      let taskCard = <ListItem key={i.toString()}>{TaskCard(task)}</ListItem>
+      let taskCard = <ListItem key={i.toString()}>{TaskCard(task, vote)}</ListItem>
       if (!task.finished) {
         result.proposedList.push(taskCard)
         console.log('asynchronously put task #', i, ' in proposedList ', result.proposedList)
@@ -61,12 +63,56 @@ function asyncGetAllTasks(DAOInstance, coinbase, i, count, result, dispatch) {
   }
 }
 
-export function loginUser() {
+function vote(taskId, agree) {
   let web3 = store.getState().web3.web3Instance
 
   // Double-check web3's status.
   if (typeof web3 !== 'undefined') {
 
+    return function(dispatch) {
+      // Using truffle-contract we create the DAO object.
+      const DAO = contract(DAOContract)
+      DAO.setProvider(web3.currentProvider)
+
+      // Declaring this for later so we can chain functions on DAO.
+      var DAOInstance
+
+      // Get current ethereum wallet.
+      web3.eth.getCoinbase((error, coinbase) => {
+        // Log errors, if any.
+        if (error) {
+          console.error(error);
+        }
+
+        DAO.deployed()
+        .then(function(instance) {
+          DAOInstance = instance
+
+          DAOInstance.vote(taskId, agree, {from: coinbase})
+          .then(function(result) {
+            // If no error, propose task
+            return alert('Vote recorded, mining transaction!')
+          })
+          .catch(function(result) {
+            // If error...
+            return alert('Error voting for task')
+          })
+        })
+        .catch(function(result) {
+          console.log('DAO not deployed')
+        })
+      })
+    }
+  } else {
+    console.error('Web3 is not initialized.');
+  }
+}
+
+export function loginUser() {
+  let web3 = store.getState().web3.web3Instance
+
+  // Double-check web3's status.
+  if (typeof web3 !== 'undefined') {
     return function(dispatch) {
       // Using truffle-contract we create the DAO object.
       const DAO = contract(DAOContract)
@@ -88,6 +134,7 @@ export function loginUser() {
           // Attempt to login user.
           DAOInstance.login({from: coinbase})
           .then(function(userName) {
+
             // If no error, login user.
             dispatch(userLoggedIn({"name": userName}))
             alert("Congratulations " + userName + "! If you're seeing this message, you've logged in with your address successfully.")
@@ -103,11 +150,15 @@ export function loginUser() {
             })
             return browserHistory.push('/taskboard')
           })
-          .catch(function(result) {
+          .catch(function(error) {
+
             // If error, go to signup page.
             console.error('Wallet ' + coinbase + ' does not have an account!')
             return browserHistory.push('/signup')
           })
+        })
+        .catch(function(result) {
+          console.log('DAO not deployed')
         })
       })
     }

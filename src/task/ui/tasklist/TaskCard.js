@@ -1,12 +1,15 @@
 import React from 'react'
 import { Card, CardActions, CardContent, Button, Typography } from '@material-ui/core'
 
-const TaskCard = ( {proposer, name, title, content, voteCount, nonconsensus, finished} ) => {
+const TaskCard = ( {taskId, proposer, name, title, content, voteCount, nonconsensus, finished }, vote ) => {
   return(
       <Card>
         <CardContent>
           <Typography variant='headline'>
             Title: {title}
+          </Typography>
+          <Typography variant='subheading'>
+            Task #{taskId}
           </Typography>
           <Typography variant='subheading'>
             Proposer Name: {name} 
@@ -22,8 +25,8 @@ const TaskCard = ( {proposer, name, title, content, voteCount, nonconsensus, fin
           </Typography>
         </CardContent>
         <CardActions>
-          <Button variant='raised'>Yes</Button>
-          <Button variant='raised'>No</Button>
+          <Button variant='raised' onClick={vote(taskId, true)}>Yes</Button>
+          <Button variant='raised' onClick={vote(taskId, false)}>No</Button>
         </CardActions>
       </Card>
   )

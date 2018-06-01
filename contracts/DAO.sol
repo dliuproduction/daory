@@ -9,6 +9,7 @@ using SafeMath for uint256;
 
     // type for a single task
     struct Task {
+        uint taskId;
         address proposer; // address who proposed the task 
         string name; // member name who proposed the task
         string title;  // task name
@@ -47,10 +48,11 @@ using SafeMath for uint256;
         _;
     }
 
-    event newTask(uint taskId, address proposer, string name, string title, string content);
-    event newVote(uint taskId, uint voteCount);
-    event voteFinished(uint taskId, bool approved);
-    event taskRemoved(uint taskId);
+    event taskUpdated();
+    // event newTask(uint taskId, address proposer, string name, string title, string content);
+    // event newVote(uint taskId, uint voteCount);
+    // event voteFinished(uint taskId, bool approved);
+    // event taskRemoved(uint taskId);
 
     /// @notice Propose a new task
     /// @notice Only existing user addresses can propose a task. proposer doesn't have to vote yes for their tasks
@@ -59,8 +61,10 @@ using SafeMath for uint256;
     function propose(string title, string content) public onlyExistingMember {
         
         // push returns new length, hence the new task's ID is length - 1 
-        uint taskId = tasks.push(Task(msg.sender, members[msg.sender].name, title, content, 0, false, false)) - 1;
-        emit newTask(taskId, msg.sender, members[msg.sender].name, title, content);
+        uint taskId = tasks.push(Task(0, msg.sender, members[msg.sender].name, title, content, 0, false, false)) - 1;
+        tasks[taskId].taskId = taskId;
+        emit taskUpdated();
+        // emit newTask(taskId, msg.sender, members[msg.sender].name, title, content);
     }
 
     /// @notice Vote on a task by its id
@@ -76,12 +80,14 @@ using SafeMath for uint256;
         tasks[taskId].voteCount++;
         votedMap[taskId][msg.sender] = true;
         votedList[taskId].push(msg.sender);
-        emit newVote(taskId, tasks[taskId].voteCount);
+        emit taskUpdated();
+        // emit newVote(taskId, tasks[taskId].voteCount);
         
         // set task as finished emit voteFinished event when all members have voted
         if (tasks[taskId].voteCount >= memberCount) {
             tasks[taskId].finished = true;
-            emit voteFinished(taskId, !tasks[taskId].nonconsensus);
+            emit taskUpdated();
+            // emit voteFinished(taskId, !tasks[taskId].nonconsensus);
         }
     }
 
@@ -91,7 +97,8 @@ using SafeMath for uint256;
     function remove(uint taskId) public onlyExistingMember taskExists(taskId) onlyProposer(taskId) {
         delete tasks[taskId];
         delete votedList[taskId];
-        emit taskRemoved(taskId);
+        emit taskUpdated();
+        // emit taskRemoved(taskId);
     }
     
     /// @notice Return voted members for a task after its voting is finished
