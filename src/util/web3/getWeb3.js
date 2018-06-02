@@ -62,13 +62,43 @@ let getWeb3 = new Promise(function(resolve, reject) {
       })
     } else {
 
-      results = {
-        web3Instance: 'undefined'      
-      }
+      // Fallback to localhost if no web3 injection.
+      // Use the development console's port by default.
+      var provider = new Web3.providers.HttpProvider('http://127.0.0.1:9545')
 
-      console.log('No web3 instance injected, install Metamask to proceed');
+      web3 = new Web3(provider)
 
-      reject(store.dispatch(web3NotFound(results)))
+      // Determine the network connected according to network Id
+      web3.version.getNetwork(
+        function(err, netId) { 
+        var network
+        switch (netId) {
+          case "1":
+            network = 'Mainnet' 
+            break
+          case "2":
+            network = 'Morden Testnet'
+            break
+          case "3":
+            network = 'Ropsten Testnet'
+            break
+          case "4":
+            network = 'Rinkeby Testnet'
+            break
+          case "42":
+            network = 'Kovan Testnet'
+            break
+          default:
+            network = 'Unknown Network ID: ' + netId
+            break
+        }
+        results = {
+          web3Instance: web3,
+          network: network 
+        }
+        console.log('No web3 instance injected, using Local web3.');
+        resolve(store.dispatch(web3Initialized(results)))
+      })
     }
   })
 })
