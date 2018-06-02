@@ -36,15 +36,13 @@ Give examples
     npm install -g truffle
     ```
     
-4. Run the development console.
-    ```javascript
-    truffle develop
-    ```
+4. Run your local blockchain. eg. Ganache
 
+    
 5. Compile and migrate the smart contracts. Note inside the development console we don't preface commands with `truffle`.
     ```javascript
-    compile
-    migrate
+    truffle compile
+    truffle migrate
     ```
 
 6. Run the webpack server for front-end hot reloading (outside the development console). Smart contract changes must be manually recompiled and migrated.
@@ -52,6 +50,18 @@ Give examples
     // Serves the front-end on http://localhost:3000
     npm start
     ```
+    
+## Usage
+
+1. Connect MetaMask to custom localhost RPC if web3 is not detected correctly. This information can be found in the truffle develop console (eg. http://127.0.0.1:8545/).
+
+2. Click 'Sign Up' to sign up your address with a name. This is mandatory to login
+
+3. Click 'Login' 
+
+4. Click 'Propose' to propose tasks
+
+5. Click 'Task Board' to view tasks and vote 
 
 ## License
 
