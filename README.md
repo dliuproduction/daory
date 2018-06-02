@@ -36,15 +36,13 @@ Give examples
     npm install -g truffle
     ```
     
-4. Run the development console.
-    ```javascript
-    truffle develop
-    ```
+4. Run your local blockchain. eg. Ganache
 
+    
 5. Compile and migrate the smart contracts. Note inside the development console we don't preface commands with `truffle`.
     ```javascript
-    compile
-    migrate
+    truffle compile
+    truffle migrate
     ```
 
 6. Run the webpack server for front-end hot reloading (outside the development console). Smart contract changes must be manually recompiled and migrated.
