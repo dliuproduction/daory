@@ -20,14 +20,14 @@ using SafeMath for uint256;
   modifier onlyExistingMember {
     // Check if member exists
 
-    require(bytes(members[msg.sender].name).length != 0);
+    require(bytes(members[msg.sender].name).length != 0, "You are not a member");
     _;
   }
 
   modifier onlyValidName(string name) {
     // Check if name is empty
 
-    require(bytes(name).length != 0);
+    require(bytes(name).length != 0, "Invalid name");
     _;
   }
 

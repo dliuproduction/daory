@@ -23,14 +23,15 @@ using SafeMath for uint256;
     Task[] public tasks;
 
     // Lists each task's voted members
-    mapping(uint => mapping (address => bool)) public votedMap;
+    // Use a uint to represent 3 states, 0: unvoted; 1: yes; 2: no
+    mapping(uint => mapping (address => uint)) public votedMap;
     mapping(uint => address[]) private votedList;
 
     modifier taskVotable(uint taskId) {
         // Check if the task can be voted on
 
         require(!tasks[taskId].finished, "Voting on this task has finished");
-        require(!votedMap[taskId][msg.sender], "Member has already voted on this task");
+        require(votedMap[taskId][msg.sender] == 0, "Member has already voted on this task");
         _;
     }
 
@@ -76,9 +77,11 @@ using SafeMath for uint256;
         // if anyone votes no, there will be no consensus in the end
         if (!agree) {
             tasks[taskId].nonconsensus = true;
+            votedMap[taskId][msg.sender] = 2; // 2 maps to no
+        } else {
+            votedMap[taskId][msg.sender] = 1; // 1 maps to yes
         }
         tasks[taskId].voteCount++;
-        votedMap[taskId][msg.sender] = true;
         votedList[taskId].push(msg.sender);
         emit taskUpdated();
         // emit newVote(taskId, tasks[taskId].voteCount);

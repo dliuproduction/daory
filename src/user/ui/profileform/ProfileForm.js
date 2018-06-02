@@ -5,18 +5,17 @@ import { TextField, Button, FormControl } from '@material-ui/core';
 
 const styles = theme => ({
   container: {
-    width: '100%',
+    width: '12.5%',
     backgroundColor: theme.palette.background.paper,
-    display: 'flex',
-    flexWrap: 'wrap',
+    margin: 'auto',
   },
   button: {
+    width: '100%',
     margin: theme.spacing.unit,
   },
   textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 200,
+    width: '100%',
+    margin: theme.spacing.unit,
   }
 });
 
@@ -49,7 +48,7 @@ class ProfileForm extends Component {
 
     return(
       <form className={classes.container}>
-        <FormControl>
+        <FormControl fullWidth={true}>
           <TextField 
           className={classes.textField}
           id="name"

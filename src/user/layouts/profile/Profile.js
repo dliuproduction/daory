@@ -7,6 +7,7 @@ import ProfileFormContainer from '../../ui/profileform/ProfileFormContainer'
 const styles = theme => ({
   root: {
     width: '100%',
+    margin: 'auto',
     backgroundColor: theme.palette.background.paper,
   }
 });
@@ -22,10 +23,10 @@ class Profile extends Component {
     const { classes } = this.props;
     return(
       <div className={classes.root}>
-        <Typography variant="display2">
+        <Typography variant="display2" align='center'>
           Profile
         </Typography>
-        <Typography variant="subheading">
+        <Typography variant="subheading" align='center'>
           Change your name here
         </Typography>
         <ProfileFormContainer />

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { HiddenOnlyAuth, VisibleOnlyAuth } from '../../util/wrappers.js'
+import { HiddenOnlyAuth } from '../../util/wrappers.js'
 import { Typography } from '@material-ui/core';
 
 class Home extends Component {
@@ -10,19 +10,12 @@ class Home extends Component {
 
   render() {
 
-    const AuthHome= VisibleOnlyAuth(() =>
-      <Typography variant="display2">
-        Congratulations! If you're seeing this message, you've logged in with your own smart contract successfully.
-      </Typography>
-    )
-
     const GuestHome = HiddenOnlyAuth(() =>
-      <Typography variant="display2">Please signup or login first.</Typography>
+      <Typography variant="display2" align='center'>Please signup or login first.</Typography>
     )
 
     return(
       <main className="container">
-          {/* <AuthHome /> */}
           <GuestHome />
       </main>
     )

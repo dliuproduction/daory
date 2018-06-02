@@ -6,8 +6,9 @@ import { CheckBoxOutlineBlank, CheckBox, IndeterminateCheckBox } from '@material
 
 const styles = theme => ({
   root: {
-    width: '100%',
+    width: '50%',
     backgroundColor: theme.palette.background.paper,
+    margin: 'auto',
   }
 });
 
@@ -53,11 +54,6 @@ class TaskList extends Component {
 
   componentDidMount() {
     this.props.getTasks(event)
-    // this.setState ({
-    //   proposedList: this.props.proposedList,
-    //   approvedList: this.props.approvedList,
-    //   disapprovedList: this.props.disapprovedList
-    // })
   }
 
   render() {
@@ -65,7 +61,7 @@ class TaskList extends Component {
 
     return (
       <div className={classes.root}>
-        <Typography variant='display2'>
+        <Typography variant='display2' align='center'>
           List of tasks
         </Typography>
         <List component="div" disablePadding>

@@ -21,8 +21,8 @@ function asyncGetAllTasks(DAOInstance, coinbase, i, count, result, dispatch) {
     .then(function(res) {
       let task = {
         taskId: res[0].toNumber(),
-        proposer: res[1], // member who proposed the task 
-        name: res[2],
+        proposer: res[1], // address that proposed the task 
+        name: res[2],     // address that proposed the task
         title: res[3],       // task name
         content: res[4],   // task detail
         voteCount: res[5].toNumber(),       // number of accumulated votes
@@ -30,18 +30,26 @@ function asyncGetAllTasks(DAOInstance, coinbase, i, count, result, dispatch) {
         finished: res[7]     // bool to signal voting has finished
       }
 
-      let taskCard = <ListItem key={i.toString()}>{TaskCard(task, vote)}</ListItem>
-      if (!task.finished) {
-        result.proposedList.push(taskCard)
-        console.log('asynchronously put task #', i, ' in proposedList ', result.proposedList)
-      } else if (!task.nonconsensus) {
-        result.approvedList.push(taskCard)
-        console.log('asynchronously put task #', i, ' in approvedList ', result.approvedList)
-      } else {
-        result.disapprovedList.push(taskCard)
-        console.log('asynchronously put task #', i, ' in disapprovedList ', result.disapprovedList)
-      }
-      asyncGetAllTasks(DAOInstance, coinbase, i + 1, count, result, dispatch)
+      DAOInstance.votedMap.call(i, coinbase, {from: coinbase})
+      .then(function(voted) {
+
+        let taskCard = 
+        (<ListItem key={i.toString()}>
+          <TaskCard task={task} vote={vote} voted={voted.toNumber()} />
+        </ListItem>)
+
+        if (!task.finished) {
+          result.proposedList.push(taskCard)
+          console.log('asynchronously put task #', i, ' in proposedList ', result.proposedList)
+        } else if (!task.nonconsensus) {
+          result.approvedList.push(taskCard)
+          console.log('asynchronously put task #', i, ' in approvedList ', result.approvedList)
+        } else {
+          result.disapprovedList.push(taskCard)
+          console.log('asynchronously put task #', i, ' in disapprovedList ', result.disapprovedList)
+        }
+        asyncGetAllTasks(DAOInstance, coinbase, i + 1, count, result, dispatch)
+      })
     })
     .catch(function(err) {
       alert('failed to get task #' + i)
@@ -80,14 +88,14 @@ function vote(taskId, agree) {
           DAOInstance.vote(taskId, agree, {from: coinbase})
           .then(function(result) {
             // If no error, propose task
-            return alert('Vote recorded, mining transaction!')
+            return alert('Vote recorded, wait for transaction!')
           })
-          .catch(function(result) {
+          .catch(function(error) {
             // If error...
             return alert('Error voting for task')
           })
         })
-        .catch(function(result) {
+        .catch(function(error) {
           console.log('DAO not deployed')
         })
       })
@@ -131,14 +139,14 @@ export function retrieveTasks() {
                   approvedList: [],
                   disapprovedList: []
                 }
-                console.log('New task update')
+                alert('New task update recorded on chain')
                 asyncGetAllTasks(DAOInstance, coinbase, 0, count, lists, dispatch)
               })
             }
           })
         })
         .catch(function(result) {
-          console.log('DAO not deployed')
+          console.error('DAO not deployed')
         })
       })
     }

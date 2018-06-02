@@ -3,14 +3,6 @@ import store from '../../../store'
 
 const contract = require('truffle-contract')
 
-export const TASK_PROPOSED = 'TASK_PROPOSED'
-function taskProposed(task) {
-  return {
-    type: TASK_PROPOSED,
-    payload: task
-  }
-}
-
 export function proposeTask(title, content) {
   let web3 = store.getState().web3.web3Instance
 
@@ -39,7 +31,7 @@ export function proposeTask(title, content) {
           DAOInstance.propose(title, content, {from: coinbase})
           .then(function(result) {
             // If no error, propose task
-            return alert('Task proposed, mining transaction!')
+            return alert('Task proposed, wait for transaction!')
           })
           .catch(function(result) {
             // If error...

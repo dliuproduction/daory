@@ -5,18 +5,23 @@ import { TextField, Button, FormControl } from '@material-ui/core';
 
 const styles = theme => ({
   container: {
-    width: '100%',
+    width: '25%',
     backgroundColor: theme.palette.background.paper,
+    margin: 'auto',
     display: 'flex',
     flexWrap: 'wrap',
   },
   button: {
     margin: theme.spacing.unit,
+    width: '50%'
+  },
+  title: {
+    margin: theme.spacing.unit,
+    width: '50%',
   },
   textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 200,
+    margin: theme.spacing.unit,
+    width: '100%',
   }
 });
 
@@ -52,9 +57,9 @@ class ProposeForm extends Component {
 
     return(
       <form className={classes.container}>
-        <FormControl>
+        <FormControl fullWidth={true}>
           <TextField 
-          className={classes.textField}
+          className={classes.title}
           id="title"
           label='Title'
           value={this.state.title} 

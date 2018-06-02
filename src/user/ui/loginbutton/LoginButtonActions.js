@@ -25,7 +25,6 @@ function userLoggedIn(user) {
 }
 
 function asyncGetAllTasks(DAOInstance, coinbase, i, count, result, dispatch) {
-  console.log('task count ', count.toNumber())
   if(i < count) {
     // get specific task and push to an array
     DAOInstance.tasks.call(i, {from: coinbase})
@@ -41,18 +40,26 @@ function asyncGetAllTasks(DAOInstance, coinbase, i, count, result, dispatch) {
         finished: res[7]     // bool to signal voting has finished
       }
 
-      let taskCard = <ListItem key={i.toString()}>{TaskCard(task, vote)}</ListItem>
-      if (!task.finished) {
-        result.proposedList.push(taskCard)
-        console.log('asynchronously put task #', i, ' in proposedList ', result.proposedList)
-      } else if (!task.nonconsensus) {
-        result.approvedList.push(taskCard)
-        console.log('asynchronously put task #', i, ' in approvedList ', result.approvedList)
-      } else {
-        result.disapprovedList.push(taskCard)
-        console.log('asynchronously put task #', i, ' in disapprovedList ', result.disapprovedList)
-      }
-      asyncGetAllTasks(DAOInstance, coinbase, i + 1, count, result, dispatch)
+      DAOInstance.votedMap.call(i, coinbase, {from: coinbase})
+      .then(function(voted) {
+
+        let taskCard = 
+        (<ListItem key={i.toString()}>
+          <TaskCard task={task} vote={vote} voted={voted.toNumber()} />
+        </ListItem>)
+
+        if (!task.finished) {
+          result.proposedList.push(taskCard)
+          console.log('asynchronously put task #', i, ' in proposedList ', result.proposedList)
+        } else if (!task.nonconsensus) {
+          result.approvedList.push(taskCard)
+          console.log('asynchronously put task #', i, ' in approvedList ', result.approvedList)
+        } else {
+          result.disapprovedList.push(taskCard)
+          console.log('asynchronously put task #', i, ' in disapprovedList ', result.disapprovedList)
+        }
+        asyncGetAllTasks(DAOInstance, coinbase, i + 1, count, result, dispatch)
+      })
     })
     .catch(function(err) {
       alert('failed to get task #' + i)
@@ -91,7 +98,7 @@ function vote(taskId, agree) {
           DAOInstance.vote(taskId, agree, {from: coinbase})
           .then(function(result) {
             // If no error, propose task
-            return alert('Vote recorded, mining transaction!')
+            return alert('Vote recorded, wait for transaction!')
           })
           .catch(function(result) {
             // If error...
@@ -120,20 +127,21 @@ export function loginUser() {
 
       // Declaring this for later so we can chain functions on DAO.
       var DAOInstance
-
+      
       // Get current ethereum wallet.
       web3.eth.getCoinbase((error, coinbase) => {
         // Log errors, if any.
         if (error) {
           console.error(error);
         }
-
+        
         DAO.deployed().then(function(instance) {
           DAOInstance = instance
 
           // Attempt to login user.
           DAOInstance.login({from: coinbase})
           .then(function(userName) {
+            
 
             // If no error, login user.
             dispatch(userLoggedIn({"name": userName}))
@@ -148,9 +156,20 @@ export function loginUser() {
               }
               asyncGetAllTasks(DAOInstance, coinbase, 0, count, lists, dispatch)
             })
+            dispatch(userLoggedIn({"name": userName}))
+
+            // Used a manual redirect here as opposed to a wrapper.
+            // This way, once logged in a user can still access the home page.
+            var currentLocation = browserHistory.getCurrentLocation()
+
+            if ('redirect' in currentLocation.query)
+            {
+              return browserHistory.push(decodeURIComponent(currentLocation.query.redirect))
+            }
             return browserHistory.push('/taskboard')
+          
           })
-          .catch(function(error) {
+          .catch(function(result) {
 
             // If error, go to signup page.
             console.error('Wallet ' + coinbase + ' does not have an account!')
@@ -158,7 +177,7 @@ export function loginUser() {
           })
         })
         .catch(function(result) {
-          console.log('DAO not deployed')
+          console.error('DAO not deployed')
         })
       })
     }

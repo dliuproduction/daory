@@ -15,9 +15,6 @@ import LogoutButtonContainer from './user/ui/logoutbutton/LogoutButtonContainer'
 // Web3 detection component
 import Web3StatusContainer from './util/web3/web3status/Web3StatusContainer'
 
-// Redux Store
-import store from './store.js'
-
 // Styles
 import './App.css'
 import 'typeface-roboto'
@@ -25,10 +22,7 @@ import 'typeface-roboto'
 const styles = theme => ({
   button: {
     margin: theme.spacing.unit,
-  },
-  input: {
-    display: 'none',
-  },
+  }
 });
 
 class App extends Component {
@@ -72,28 +66,6 @@ class App extends Component {
       </div>
     )
 
-    const DetectWeb3 = () => {
-      
-      var web3 = store.getState().web3
-      if (typeof web3.web3Instance !== 'undefined') {
-        return (
-          <div>
-            <Typography variant="body2" color="inherit" className={classes.button}>
-            Web3 Detected: {web3.network}
-            </Typography>
-          </div>
-        )
-      } else {
-        return (
-          <div>
-            <Typography variant="body2" color="error" className={classes.button}>
-            'Web3 Not Detected'
-            </Typography>
-          </div>
-        )
-      }
-    }
-
     return (
       <div className="App">
           <AppBar position="sticky" color="primary">
@@ -107,8 +79,7 @@ class App extends Component {
               </Button>
               <OnlyGuestLinks />
               <OnlyAuthLinks />
-              <DetectWeb3 />
-              {/* <Web3StatusContainer /> */}
+              <Web3StatusContainer />
             </Toolbar>
           </AppBar>
         {this.props.children}

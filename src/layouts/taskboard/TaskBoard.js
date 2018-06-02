@@ -11,7 +11,7 @@ class Taskboard extends Component {
     )
 
     const GuestTaskboard = HiddenOnlyAuth(() =>
-      <Typography variant="display2">Please signup or login first.</Typography>
+      <Typography variant="display2" align='center'>Please signup or login first.</Typography>
     )
 
     return(

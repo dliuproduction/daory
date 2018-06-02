@@ -8,6 +8,8 @@ const styles = theme => ({
   root: {
     width: '100%',
     backgroundColor: theme.palette.background.paper,
+    marginLeft: 'auto',
+    marginRight: 'auto',
   }
 });
 
@@ -22,10 +24,10 @@ class Propose extends Component {
     const { classes } = this.props;
     return(
       <div className={classes.root}>
-        <Typography variant="display2">
+        <Typography variant="display2" align='center'>
           Propose task
         </Typography>
-        <Typography variant="subheading">
+        <Typography variant="subheading" align='center'>
           Enter task title and content
         </Typography>
         <ProposeFormContainer />

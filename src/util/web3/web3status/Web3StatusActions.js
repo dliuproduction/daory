@@ -50,7 +50,7 @@ export function getWeb3() {
           network: network 
         }
         console.log('web3 detected, network: ' + network)
-        return(dispatch(web3Initialized(results)))
+        store.dispatch(web3Initialized(results))
       })
     } else {
 
