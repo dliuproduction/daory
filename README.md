@@ -10,14 +10,6 @@
 
 These instructions will get you a a copy of the project running on your localhost with a development blockchain.
 
-### Prerequisites
-
-What things you need to install the software and how to install them
-
-```
-Give examples
-```
-
 ## Installation
 
 1. Clone this repo
