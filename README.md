@@ -53,8 +53,17 @@ Give examples
     npm start
     ```
     
-7. Connect MetaMask to custom localhost RPC if it is not configured correctly.
+## Usage
 
+1. Connect MetaMask to custom localhost RPC if web3 is not detected correctly. This information can be found in the truffle develop console (eg. http://127.0.0.1:8545/).
+
+2. Click 'Sign Up' to sign up your address with a name. This is mandatory to login
+
+3. Click 'Login' 
+
+4. Click 'Propose' to propose tasks
+
+5. Click 'Task Board' to view tasks and vote 
 
 ## License
 
