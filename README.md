@@ -52,6 +52,9 @@ Give examples
     // Serves the front-end on http://localhost:3000
     npm start
     ```
+    
+7. Connect MetaMask to custom localhost RPC if it is not configured correctly.
+
 
 ## License
 
