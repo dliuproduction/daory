@@ -2,7 +2,7 @@ pragma solidity ^0.4.23;
 
 import "./Authentication.sol";
 
-/// @title A distributed organization with members, tasks, and voting.
+/// @title A decentralized organization with members, tasks, and voting.
 /// @author Dennis Liu
 contract DAO is Authentication {
 using SafeMath for uint256;
