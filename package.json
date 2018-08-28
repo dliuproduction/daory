@@ -61,6 +61,7 @@
     "redux": "^3.6.0",
     "redux-auth-wrapper": "^1.0.0",
     "redux-thunk": "^2.3.0",
+    "truffle-hdwallet-provider": "0.0.6",
     "typeface-roboto": "0.0.54",
     "url-parse": "^1.4.3",
     "zeppelin-solidity": "^1.12.0"

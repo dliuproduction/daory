@@ -1,4 +1,4 @@
-var Authentication = artifacts.require("Authentication");
+var Authentication = artifacts.require("DAO");
 
 contract('Authentication', async (accounts) => {
   let expectThrow = require("openzeppelin-solidity/test/helpers/expectThrow.js").expectThrow
