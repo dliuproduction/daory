@@ -62,7 +62,7 @@ class TaskList extends Component {
     return (
       <div className={classes.root}>
         <Typography variant='display2' align='center'>
-          List of tasks
+          Task List
         </Typography>
         <List component="div" disablePadding>
           <ListItem>

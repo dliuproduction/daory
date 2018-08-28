@@ -34,5 +34,6 @@ build/
 
 # lol macs
 .DS_Store/
+.DS_Store
 
 .vscode/
