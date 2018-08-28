@@ -1,8 +1,8 @@
 pragma solidity ^0.4.23;
 
-// import with full path to use remixd sharing folder and remix IDE
-import '../node_modules/openzeppelin-solidity/contracts/lifecycle/Destructible.sol';
-import "../node_modules/openzeppelin-solidity/contracts/math/SafeMath.sol";
+// import from node module on local blockchain
+import 'openzeppelin-solidity/contracts/lifecycle/Destructible.sol';
+import 'openzeppelin-solidity/contracts/math/SafeMath.sol';
 
 contract Authentication is Destructible {
 using SafeMath for uint256;
