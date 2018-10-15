@@ -1,4 +1,5 @@
-[![Edit daory](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/dliuproduction/daory/tree/develop/?autoresize=1)
+![Glitch Badge](https://badge.glitch.me/daory)
+
 # daory
 ### A simple decentralized autonomous organization
 
