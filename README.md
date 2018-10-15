@@ -1,5 +1,7 @@
 ![Glitch Badge](https://badge.glitch.me/daory)
 
+https://daory.glitch.me
+
 # daory
 ### A simple decentralized autonomous organization
 
